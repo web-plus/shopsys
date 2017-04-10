@@ -70,6 +70,7 @@ Create `domains_urls.yml` from `domains_urls.yml.dist`.
 ```
 cp app/config/domains_urls.yml.dist app/config/domains_urls.yml
 ```
+*Note: If you are interested how domains work see [Multidomain Features](multidomain-features.md).*
 
 ### 5. Build application
 ```
