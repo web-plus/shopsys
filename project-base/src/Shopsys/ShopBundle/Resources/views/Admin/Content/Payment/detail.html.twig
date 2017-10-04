@@ -13,7 +13,7 @@
     {{ form_start(form) }}
         {{ form_errors(form) }}
 
-        <div class="form-group wrap-border">
+        <div class="form-group">
             <div class="form-group__title">
                 {{ 'Basic information'|trans }}
             </div>
@@ -23,7 +23,7 @@
             {{ form_row(form.paymentData.domains, { label: 'Display on'|trans }) }}
             {{ form_row(form.paymentData.hidden, { label: 'Hidden'|trans, attr: {class: 'form-line--between'} }) }}
         </div>
-        <div class="form-group wrap-border">
+        <div class="form-group">
             <div class="form-group__title">
                 {{ 'Prices'|trans }}
             </div>
@@ -35,7 +35,7 @@
             {{ form_row(form.paymentData.vat, { label: 'VAT'|trans}) }}
             {% block payment_base_prices %}{% endblock %}
         </div>
-        <div class="form-group wrap-border">
+        <div class="form-group">
             <div class="form-group__title">
                 {{ 'Additional information'|trans }}
             </div>

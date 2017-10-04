@@ -8,11 +8,9 @@
     {{ form_start(form) }}
         {{ form_errors(form) }}
 
-        <div class="wrap-border">
-            <div class="form-group">
-                <div class="form-group__title">
-                    {{ 'System data'|trans }}
-                </div>
+        <div class="form-group">
+            <div class="form-group__title">
+                {{ 'System data'|trans }}
             </div>
             {{ form_id(user|default(null)) }}
             {% block customer_domain %}{% endblock %}
@@ -20,11 +18,9 @@
             {% block customer_created_at %}{% endblock %}
         </div>
 
-        <div class="wrap-border">
-            <div class="form-group">
-                <div class="form-group__title">
-                    {{ 'Personal data'|trans }}
-                </div>
+        <div class="form-group">
+            <div class="form-group__title">
+                {{ 'Personal data'|trans }}
             </div>
             {{ form_row(form.userData.firstName, { label: 'First name'|trans}) }}
             {{ form_row(form.userData.lastName, { label: 'Last name'|trans}) }}
@@ -32,22 +28,18 @@
             {{ form_row(form.userData.email, { label: 'E-mail'|trans }) }}
         </div>
 
-        <div class="wrap-border">
-            <div class="form-group">
-                <div class="form-group__title">
-                    {{ 'Registered cust.'|trans }}
-                </div>
+        <div class="form-group">
+            <div class="form-group__title">
+                {{ 'Registered cust.'|trans }}
             </div>
             {{ form_row(form.userData.password.first, { label: 'Password'|trans}) }}
             {{ form_row(form.userData.password.second, { label: 'Password again'|trans}) }}
             {% block customer_last_login %}{% endblock %}
         </div>
 
-        <div class="wrap-border" id="customer_form_billingAddressData">
-            <div class="form-group">
-                <div class="form-group__title">
-                    {{ 'Company data'|trans }}
-                </div>
+        <div class="form-group" id="customer_form_billingAddressData">
+            <div class="form-group__title">
+                {{ 'Company data'|trans }}
             </div>
             {{ form_row(form.billingAddressData.companyCustomer, {
                 attr: { class: 'js-checkbox-toggle', 'data-checkbox-toggle-container-id': 'js-company-fields' },
@@ -60,11 +52,9 @@
             </div>
         </div>
 
-        <div class="wrap-border">
-            <div class="form-group">
-                <div class="form-group__title">
-                    {{ 'Address'|trans }}
-                </div>
+        <div class="form-group">
+            <div class="form-group__title">
+                {{ 'Address'|trans }}
             </div>
             {{ form_row(form.billingAddressData.street, { label: 'Street'|trans}) }}
             {{ form_row(form.billingAddressData.city, { label: 'City'|trans}) }}
@@ -72,11 +62,9 @@
             {{ form_row(form.billingAddressData.country, { label: 'Country'|trans }) }}
         </div>
 
-        <div class="wrap-border" id="customer_form_deliveryAddressData">
-            <div class="form-group">
-                <div class="form-group__title">
-                    {{ 'Shipping address'|trans }}
-                </div>
+        <div class="form-group" id="customer_form_deliveryAddressData">
+            <div class="form-group__title">
+                {{ 'Shipping address'|trans }}
             </div>
             {{ form_row(form.deliveryAddressData.addressFilled, {
                 attr: { class: 'js-checkbox-toggle', 'data-checkbox-toggle-container-id': 'js-delivery-address-fields' },

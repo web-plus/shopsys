@@ -12,7 +12,7 @@
 
     {{ form_start(form) }}
         {{ form_errors(form) }}
-        <div class="form-group wrap-border">
+        <div class="form-group">
             <div class="form-group__title">
                 {{ 'Settings'|trans }}
             </div>
@@ -23,7 +23,7 @@
             {{ form_row(form.heurekaCzFeedCategory, { label: 'Category Heureka.cz'|trans, attr: { class: 'js-autocomplete-selectbox'}}) }}
         </div>
 
-        <div class="form-group wrap-border">
+        <div class="form-group">
             <div class="form-group__title">
                 {{ 'SEO'|trans }}
             </div>
@@ -34,7 +34,7 @@
 
             {{ seoFormRowMacros.multidomainRow(form.seoH1s, 'Heading (H1)'|trans) }}
 
-        <div class="form-group wrap-border">
+        <div class="form-group">
             <div class="form-group__title">
                 {{ 'Description'|trans }}
             </div>

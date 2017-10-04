@@ -10,153 +10,129 @@
     {{ form_start(form) }}
         {{ form_errors(form) }}
 
-        <div class="wrap-border">
-            <div class="form-group">
-                <div class="form-group__title">
-                    {{ 'Order Nr.'|trans }} {{ order.number }}
+        <div class="form-group">
+            <div class="form-group__title">
+                {{ 'Order Nr.'|trans }} {{ order.number }}
+            </div>
+            {{ form_id(order) }}
+            <div class="form-line">
+                <div class="form-line__line form-line__line--no-space">
+                    <div class="form-line__item form-line__item--text">
+                        <a href="{{ findUrlByDomainId('front_customer_order_detail_unregistered', { urlHash: order.urlHash }, order.domainId) }}" target="_blank">
+                            {{ findUrlByDomainId('front_customer_order_detail_unregistered', { urlHash: order.urlHash }, order.domainId) }}
+                        </a>
+                    </div>
                 </div>
             </div>
-            <fieldset>
-                {{ form_id(order) }}
+            {% if isMultidomain() %}
                 <div class="form-line">
-                    <div class="form-line__line form-line__line--no-space">
+                    <label class="form-line__label">{{ 'Domain'|trans }}:</label>
+                    <div class="form-line__side">
                         <div class="form-line__item form-line__item--text">
-                            <a href="{{ findUrlByDomainId('front_customer_order_detail_unregistered', { urlHash: order.urlHash }, order.domainId) }}" target="_blank">
-                                {{ findUrlByDomainId('front_customer_order_detail_unregistered', { urlHash: order.urlHash }, order.domainId) }}
+                            {{ domainIcon(order.domainId) }} {{ getDomainName(order.domainId) }}
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+            {{ form_row(form.orderNumber, { label: 'Order number'|trans }) }}
+            <div class="form-line">
+                <label class="form-line__label">{{ 'Created on'|trans }}:</label>
+                <div class="form-line__side">
+                    <div class="form-line__item form-line__item--text">
+                        {{ order.createdAt|formatDateTime }}
+                    </div>
+                </div>
+            </div>
+            {{ form_row(form.status, { label: 'Status'|trans }) }}
+            <div class="form-line">
+                <label class="form-line__label">{{ 'Customer'|trans }}:</label>
+                <div class="form-line__side">
+                    <div class="form-line__item form-line__item--text">
+                        {% if order.customer is null%}
+                            {{ 'unregistered customer'|trans }}
+                        {% else %}
+                            <a href="{{ path('admin_customer_edit', { id: order.customer.id }) }}" target="_blank">
+                                {% if order.customer.billingAddress.companyCustomer %}
+                                    {{ order.customer.billingAddress.companyName }} -
+                                {% endif %}
+                                {{ order.customer.lastName }}
+                                {{ order.customer.firstName }}
+                                <i class="svg svg-forward-page"></i>
                             </a>
-                        </div>
+                        {% endif %}
                     </div>
                 </div>
-                {% if isMultidomain() %}
-                    <div class="form-line">
-                        <label class="form-line__label">{{ 'Domain'|trans }}:</label>
-                        <div class="form-line__side">
-                            <div class="form-line__item form-line__item--text">
-                                {{ domainIcon(order.domainId) }} {{ getDomainName(order.domainId) }}
-                            </div>
-                        </div>
-                    </div>
-                {% endif %}
-                {{ form_row(form.orderNumber, { label: 'Order number'|trans }) }}
+            </div>
+            {% if order.createdAsAdministrator is not null or order.createdAsAdministratorName is not null %}
                 <div class="form-line">
-                    <label class="form-line__label">{{ 'Created on'|trans }}:</label>
+                    <label class="form-line__label">{{ 'Created by administrator'|trans }}:</label>
                     <div class="form-line__side">
                         <div class="form-line__item form-line__item--text">
-                            {{ order.createdAt|formatDateTime }}
-                        </div>
-                    </div>
-                </div>
-                {{ form_row(form.status, { label: 'Status'|trans }) }}
-                <div class="form-line">
-                    <label class="form-line__label">{{ 'Customer'|trans }}:</label>
-                    <div class="form-line__side">
-                        <div class="form-line__item form-line__item--text">
-                            {% if order.customer is null%}
-                                {{ 'unregistered customer'|trans }}
+                            {% if order.createdAsAdministrator is null%}
+                                {{ order.createdAsAdministratorName }}
                             {% else %}
-                                <a href="{{ path('admin_customer_edit', { id: order.customer.id }) }}" target="_blank">
-                                    {% if order.customer.billingAddress.companyCustomer %}
-                                        {{ order.customer.billingAddress.companyName }} -
-                                    {% endif %}
-                                    {{ order.customer.lastName }}
-                                    {{ order.customer.firstName }}
-                                    <i class="svg svg-forward-page"></i>
-                                </a>
+                                {{ order.createdAsAdministrator.realName }}
                             {% endif %}
                         </div>
                     </div>
                 </div>
-                {% if order.createdAsAdministrator is not null or order.createdAsAdministratorName is not null %}
-                    <div class="form-line">
-                        <label class="form-line__label">{{ 'Created by administrator'|trans }}:</label>
-                        <div class="form-line__side">
-                            <div class="form-line__item form-line__item--text">
-                                {% if order.createdAsAdministrator is null%}
-                                    {{ order.createdAsAdministratorName }}
-                                {% else %}
-                                    {{ order.createdAsAdministrator.realName }}
-                                {% endif %}
-                            </div>
-                        </div>
-                    </div>
-                {% endif %}
-            </fieldset>
+            {% endif %}
         </div>
 
-        <div class="wrap-border">
-            <div class="form-group">
-                <div class="form-group__title">
-                    {{ 'Personal data'|trans }}
-                </div>
+        <div class="form-group">
+            <div class="form-group__title">
+                {{ 'Personal data'|trans }}
             </div>
-            <fieldset>
-                {{ form_row(form.firstName, { label: 'First name'|trans }) }}
-                {{ form_row(form.lastName, { label: 'Last name'|trans }) }}
-                {{ form_row(form.email, { label: 'E-mail'|trans }) }}
-                {{ form_row(form.telephone, { label: 'Telephone'|trans }) }}
-            </fieldset>
+            {{ form_row(form.firstName, { label: 'First name'|trans }) }}
+            {{ form_row(form.lastName, { label: 'Last name'|trans }) }}
+            {{ form_row(form.email, { label: 'E-mail'|trans }) }}
+            {{ form_row(form.telephone, { label: 'Telephone'|trans }) }}
         </div>
 
-        <div class="wrap-border">
-            <div class="form-group">
-                <div class="form-group__title">
-                    {{ 'Company data'|trans }}
-                </div>
+        <div class="form-group">
+            <div class="form-group__title">
+                {{ 'Company data'|trans }}
             </div>
-            <fieldset>
-                {{ form_row(form.companyName, { label: 'Company name'|trans }) }}
-                {{ form_row(form.companyNumber, { label: 'Company number'|trans }) }}
-                {{ form_row(form.companyTaxNumber, { label: 'Tax number'|trans }) }}
-            </fieldset>
+            {{ form_row(form.companyName, { label: 'Company name'|trans }) }}
+            {{ form_row(form.companyNumber, { label: 'Company number'|trans }) }}
+            {{ form_row(form.companyTaxNumber, { label: 'Tax number'|trans }) }}
         </div>
 
-        <div class="wrap-border">
-            <div class="form-group">
-                <div class="form-group__title">
-                    {{ 'Billing data'|trans }}
-                </div>
+        <div class="form-group">
+            <div class="form-group__title">
+                {{ 'Billing data'|trans }}
             </div>
-            <fieldset>
-                {{ form_row(form.street, { label: 'Street'|trans }) }}
-                {{ form_row(form.city, { label: 'City'|trans }) }}
-                {{ form_row(form.postcode, { label: 'Postcode'|trans }) }}
-                {{ form_row(form.country, { label: 'Country'|trans }) }}
-            </fieldset>
+            {{ form_row(form.street, { label: 'Street'|trans }) }}
+            {{ form_row(form.city, { label: 'City'|trans }) }}
+            {{ form_row(form.postcode, { label: 'Postcode'|trans }) }}
+            {{ form_row(form.country, { label: 'Country'|trans }) }}
         </div>
 
-        <div class="wrap-border">
-            <div class="form-group">
-                <div class="form-group__title">
-                    {{ 'Shipping address'|trans }}
-                </div>
+        <div class="form-group">
+            <div class="form-group__title">
+                {{ 'Shipping address'|trans }}
             </div>
-            <fieldset>
-                {{ form_row(form.deliveryAddressSameAsBillingAddress, {
-                    attr: { class: 'js-checkbox-toggle js-checkbox-toggle--inverted', 'data-checkbox-toggle-container-id': 'js-delivery-address-fields' },
-                    label: 'Shipping address is the same as billing address'|trans})
-                }}
-                <div id="js-delivery-address-fields" class="form-line__js">
-                    {{ form_row(form.deliveryFirstName, { label: 'First name'|trans }) }}
-                    {{ form_row(form.deliveryLastName, { label: 'Last name'|trans }) }}
-                    {{ form_row(form.deliveryCompanyName, { label: 'Company'|trans }) }}
-                    {{ form_row(form.deliveryTelephone, { label: 'Telephone'|trans }) }}
-                    {{ form_row(form.deliveryStreet, { label: 'Street'|trans }) }}
-                    {{ form_row(form.deliveryCity, { label: 'City'|trans }) }}
-                    {{ form_row(form.deliveryPostcode, { label: 'Postcode'|trans }) }}
-                    {{ form_row(form.deliveryCountry, { label: 'Country'|trans }) }}
-                </div>
-            </fieldset>
+            {{ form_row(form.deliveryAddressSameAsBillingAddress, {
+                attr: { class: 'js-checkbox-toggle js-checkbox-toggle--inverted', 'data-checkbox-toggle-container-id': 'js-delivery-address-fields' },
+                label: 'Shipping address is the same as billing address'|trans})
+            }}
+            <div id="js-delivery-address-fields" class="form-line__js">
+                {{ form_row(form.deliveryFirstName, { label: 'First name'|trans }) }}
+                {{ form_row(form.deliveryLastName, { label: 'Last name'|trans }) }}
+                {{ form_row(form.deliveryCompanyName, { label: 'Company'|trans }) }}
+                {{ form_row(form.deliveryTelephone, { label: 'Telephone'|trans }) }}
+                {{ form_row(form.deliveryStreet, { label: 'Street'|trans }) }}
+                {{ form_row(form.deliveryCity, { label: 'City'|trans }) }}
+                {{ form_row(form.deliveryPostcode, { label: 'Postcode'|trans }) }}
+                {{ form_row(form.deliveryCountry, { label: 'Country'|trans }) }}
+            </div>
         </div>
 
-        <div class="wrap-border">
-            <div class="form-group">
-                <div class="form-group__title">
-                    {{ 'Note'|trans }}
-                </div>
+        <div class="form-group">
+            <div class="form-group__title">
+                {{ 'Note'|trans }}
             </div>
-            <fieldset>
-                {{ form_row(form.note, { label: 'Contact us'|trans, newline: true }) }}
-            </fieldset>
+            {{ form_row(form.note, { label: 'Contact us'|trans, newline: true }) }}
         </div>
 
         <h2>{{ 'Order items'|trans }}</h2>

@@ -47,4 +47,11 @@
         top: 11px;
         left: -12px;
     }
+
+    & + & {
+        padding-top: @item-gap;
+        margin-top: @item-gap;
+
+        border-top: 1px solid @color-border-dark;
+    }
 }

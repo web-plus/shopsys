@@ -12,7 +12,7 @@
     {{ form_start(form) }}
         {{ form_errors(form) }}
 
-        <div class="form-group wrap-border">
+        <div class="form-group">
 
             <div class="form-group__title">
                 {{ 'Basic information'|trans }}
@@ -24,7 +24,7 @@
             {{ form_row(form.transportData.hidden, { label: 'Hidden'|trans, attr: {class: 'form-line--between'} }) }}
         </div>
 
-        <div class="form-group wrap-border">
+        <div class="form-group">
 
             <div class="form-group__title">
                 {{ 'Prices'|trans }}
@@ -33,7 +33,7 @@
             {% block transport_base_prices %}{% endblock %}
         </div>
 
-        <div class="form-group wrap-border">
+        <div class="form-group">
 
             <div class="form-group__title">
                 {{ 'Description'|trans }}
