@@ -16,6 +16,7 @@ use Shopsys\FrameworkBundle\Model\Product\Parameter\ParameterRepository;
 use Shopsys\FrameworkBundle\Model\Product\Parameter\ProductParameterValue;
 use Shopsys\FrameworkBundle\Model\Product\Pricing\ProductManualInputPriceFacade;
 use Shopsys\FrameworkBundle\Model\Product\Pricing\ProductPriceRecalculationScheduler;
+use Shopsys\FrameworkBundle\Model\Product\Pricing\ProductPriceRecalculator;
 
 class ProductFacade
 {
@@ -109,6 +110,11 @@ class ProductFacade
      */
     private $pluginCrudExtensionFacade;
 
+    /**
+     * @var \Shopsys\FrameworkBundle\Model\Product\Pricing\ProductPriceRecalculator
+     */
+    private $productPriceRecalculator;
+
     public function __construct(
         EntityManagerInterface $em,
         ProductRepository $productRepository,
@@ -127,7 +133,8 @@ class ProductFacade
         ProductAccessoryRepository $productAccessoryRepository,
         ProductVariantService $productVariantService,
         AvailabilityFacade $availabilityFacade,
-        PluginCrudExtensionFacade $pluginCrudExtensionFacade
+        PluginCrudExtensionFacade $pluginCrudExtensionFacade,
+        ProductPriceRecalculator $productPriceRecalculator
     ) {
         $this->em = $em;
         $this->productRepository = $productRepository;
@@ -147,6 +154,7 @@ class ProductFacade
         $this->productVariantService = $productVariantService;
         $this->availabilityFacade = $availabilityFacade;
         $this->pluginCrudExtensionFacade = $pluginCrudExtensionFacade;
+        $this->productPriceRecalculator = $productPriceRecalculator;
     }
 
     /**
@@ -206,7 +214,9 @@ class ProductFacade
 
         $this->productAvailabilityRecalculationScheduler->scheduleProductForImmediateRecalculation($product);
         $this->productVisibilityFacade->refreshProductsVisibilityForMarkedDelayed();
-        $this->productPriceRecalculationScheduler->scheduleProductForImmediateRecalculation($product);
+        //$this->productPriceRecalculationScheduler->scheduleProductForImmediateRecalculation($product);
+
+        $this->productPriceRecalculator->recalculateProductPrices($product);
     }
 
     /**
@@ -241,7 +251,9 @@ class ProductFacade
 
         $this->productAvailabilityRecalculationScheduler->scheduleProductForImmediateRecalculation($product);
         $this->productVisibilityFacade->refreshProductsVisibilityForMarkedDelayed();
-        $this->productPriceRecalculationScheduler->scheduleProductForImmediateRecalculation($product);
+
+        $this->productPriceRecalculator->recalculateProductPrices($product);
+       // $this->productPriceRecalculationScheduler->scheduleProductForImmediateRecalculation($product);
 
         return $product;
     }
@@ -255,7 +267,8 @@ class ProductFacade
         $productDeleteResult = $this->productService->delete($product);
         $productsForRecalculations = $productDeleteResult->getProductsForRecalculations();
         foreach ($productsForRecalculations as $productForRecalculations) {
-            $this->productPriceRecalculationScheduler->scheduleProductForImmediateRecalculation($productForRecalculations);
+            $this->productPriceRecalculator->recalculateProductPrices($productForRecalculations);
+            //$this->productPriceRecalculationScheduler->scheduleProductForImmediateRecalculation($productForRecalculations);
             $this->productService->markProductForVisibilityRecalculation($productForRecalculations);
             $this->productAvailabilityRecalculationScheduler->scheduleProductForImmediateRecalculation($productForRecalculations);
         }

@@ -142,7 +142,7 @@ class ProductPriceRecalculator
     /**
      * @param \Shopsys\FrameworkBundle\Model\Product\Product $product
      */
-    private function recalculateProductPrices(Product $product)
+    public function recalculateProductPrices(Product $product)
     {
         foreach ($this->getAllPricingGroups() as $pricingGroup) {
             try {
