@@ -40,9 +40,7 @@ class ProductPriceRecalculatorTest extends TestCase
             ->getMock();
         $productPriceRecalculationSchedulerMock = $this->getMockBuilder(ProductPriceRecalculationScheduler::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getProductsForImmediateRecalculation'])
             ->getMock();
-        $productPriceRecalculationSchedulerMock->expects($this->once())->method('getProductsForImmediateRecalculation')->will($this->returnValue([$productMock]));
         $pricingGroupFacadeMock = $this->getMockBuilder(PricingGroupFacade::class)
             ->disableOriginalConstructor()
             ->setMethods(['getAll'])
@@ -59,6 +57,6 @@ class ProductPriceRecalculatorTest extends TestCase
             $productServiceMock
         );
 
-        $productPriceRecalculator->runImmediateRecalculations();
+        $productPriceRecalculator->recalculateProductPrices($productMock);
     }
 }

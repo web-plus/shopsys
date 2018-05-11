@@ -10,6 +10,7 @@ use Shopsys\FrameworkBundle\Model\Pricing\Vat\Vat;
 use Shopsys\FrameworkBundle\Model\Pricing\Vat\VatData;
 use Shopsys\FrameworkBundle\Model\Product\Pricing\ProductPriceCalculation;
 use Shopsys\FrameworkBundle\Model\Product\Pricing\ProductPriceRecalculationScheduler;
+use Shopsys\FrameworkBundle\Model\Product\Pricing\ProductPriceRecalculator;
 use Shopsys\FrameworkBundle\Model\Product\Product;
 use Shopsys\FrameworkBundle\Model\Product\ProductCategoryDomainFactory;
 use Shopsys\FrameworkBundle\Model\Product\ProductData;
@@ -17,7 +18,7 @@ use Shopsys\FrameworkBundle\Model\Product\ProductService;
 
 class ProductServiceTest extends TestCase
 {
-    public function testEditSchedulesPriceRecalculation()
+    public function testEditPriceRecalculation()
     {
         $productPriceCalculationMock = $this->getMockBuilder(ProductPriceCalculation::class)
             ->disableOriginalConstructor()
@@ -31,17 +32,17 @@ class ProductServiceTest extends TestCase
         $pricingSettingMock = $this->getMockBuilder(PricingSetting::class)
             ->disableOriginalConstructor()
             ->getMock();
-        $productPriceRecalculationSchedulerMock = $this->getMockBuilder(ProductPriceRecalculationScheduler::class)
+        $productPriceRecalculatorMock = $this->getMockBuilder(ProductPriceRecalculator::class)
             ->disableOriginalConstructor()
             ->getMock();
-        $productPriceRecalculationSchedulerMock->expects($this->once())->method('scheduleProductForImmediateRecalculation');
+        $productPriceRecalculatorMock->expects($this->once())->method('recalculateProductPrices');
 
         $productService = new ProductService(
             $productPriceCalculationMock,
             $inputPriceCalculationMock,
             $basePriceCalculationMock,
             $pricingSettingMock,
-            $productPriceRecalculationSchedulerMock,
+            $productPriceRecalculatorMock,
             new ProductCategoryDomainFactory()
         );
 
@@ -65,17 +66,17 @@ class ProductServiceTest extends TestCase
         $pricingSettingMock = $this->getMockBuilder(PricingSetting::class)
             ->disableOriginalConstructor()
             ->getMock();
-        $productPriceRecalculationSchedulerMock = $this->getMockBuilder(ProductPriceRecalculationScheduler::class)
+        $productPriceRecalculatorMock = $this->getMockBuilder(ProductPriceRecalculator::class)
             ->disableOriginalConstructor()
             ->getMock();
-        $productPriceRecalculationSchedulerMock->expects($this->once())->method('scheduleProductForImmediateRecalculation');
+        $productPriceRecalculatorMock->expects($this->once())->method('recalculateProductPrices');
 
         $productService = new ProductService(
             $productPriceCalculationMock,
             $inputPriceCalculationMock,
             $basePriceCalculationMock,
             $pricingSettingMock,
-            $productPriceRecalculationSchedulerMock,
+            $productPriceRecalculatorMock,
             new ProductCategoryDomainFactory()
         );
 
@@ -99,17 +100,17 @@ class ProductServiceTest extends TestCase
         $pricingSettingMock = $this->getMockBuilder(PricingSetting::class)
             ->disableOriginalConstructor()
             ->getMock();
-        $productPriceRecalculationSchedulerMock = $this->getMockBuilder(ProductPriceRecalculationScheduler::class)
+        $productPriceRecalculatorMock = $this->getMockBuilder(ProductPriceRecalculator::class)
             ->disableOriginalConstructor()
             ->getMock();
-        $productPriceRecalculationSchedulerMock->expects($this->once())->method('scheduleProductForImmediateRecalculation');
+        $productPriceRecalculatorMock->expects($this->once())->method('recalculateProductPrices');
 
         $productService = new ProductService(
             $productPriceCalculationMock,
             $inputPriceCalculationMock,
             $basePriceCalculationMock,
             $pricingSettingMock,
-            $productPriceRecalculationSchedulerMock,
+            $productPriceRecalculatorMock,
             new ProductCategoryDomainFactory()
         );
 
@@ -140,7 +141,7 @@ class ProductServiceTest extends TestCase
             ->setMethods(null)
             ->disableOriginalConstructor()
             ->getMock();
-        $productPriceRecalculationSchedulerMock = $this->getMockBuilder(ProductPriceRecalculationScheduler::class)
+        $productPriceRecalculatorMock = $this->getMockBuilder(ProductPriceRecalculator::class)
             ->setMethods(null)
             ->disableOriginalConstructor()
             ->getMock();
@@ -150,7 +151,7 @@ class ProductServiceTest extends TestCase
             $inputPriceCalculationMock,
             $basePriceCalculationMock,
             $pricingSettingMock,
-            $productPriceRecalculationSchedulerMock,
+            $productPriceRecalculatorMock,
             new ProductCategoryDomainFactory()
         );
 
@@ -178,7 +179,7 @@ class ProductServiceTest extends TestCase
             ->setMethods(null)
             ->disableOriginalConstructor()
             ->getMock();
-        $productPriceRecalculationSchedulerMock = $this->getMockBuilder(ProductPriceRecalculationScheduler::class)
+        $productPriceRecalculatorMock = $this->getMockBuilder(ProductPriceRecalculator::class)
             ->setMethods(null)
             ->disableOriginalConstructor()
             ->getMock();
@@ -188,7 +189,7 @@ class ProductServiceTest extends TestCase
             $inputPriceCalculationMock,
             $basePriceCalculationMock,
             $pricingSettingMock,
-            $productPriceRecalculationSchedulerMock,
+            $productPriceRecalculatorMock,
             new ProductCategoryDomainFactory()
         );
 
@@ -217,7 +218,7 @@ class ProductServiceTest extends TestCase
             ->setMethods(null)
             ->disableOriginalConstructor()
             ->getMock();
-        $productPriceRecalculationSchedulerMock = $this->getMockBuilder(ProductPriceRecalculationScheduler::class)
+        $productPriceRecalculatorMock = $this->getMockBuilder(ProductPriceRecalculator::class)
             ->setMethods(null)
             ->disableOriginalConstructor()
             ->getMock();
@@ -227,7 +228,7 @@ class ProductServiceTest extends TestCase
             $inputPriceCalculationMock,
             $basePriceCalculationMock,
             $pricingSettingMock,
-            $productPriceRecalculationSchedulerMock,
+            $productPriceRecalculatorMock,
             new ProductCategoryDomainFactory()
         );
 
@@ -257,7 +258,7 @@ class ProductServiceTest extends TestCase
             ->setMethods(null)
             ->disableOriginalConstructor()
             ->getMock();
-        $productPriceRecalculationSchedulerMock = $this->getMockBuilder(ProductPriceRecalculationScheduler::class)
+        $productPriceRecalculatorMock = $this->getMockBuilder(ProductPriceRecalculator::class)
             ->setMethods(null)
             ->disableOriginalConstructor()
             ->getMock();
@@ -267,7 +268,7 @@ class ProductServiceTest extends TestCase
             $inputPriceCalculationMock,
             $basePriceCalculationMock,
             $pricingSettingMock,
-            $productPriceRecalculationSchedulerMock,
+            $productPriceRecalculatorMock,
             new ProductCategoryDomainFactory()
         );
 
@@ -300,7 +301,7 @@ class ProductServiceTest extends TestCase
             ->setMethods(null)
             ->disableOriginalConstructor()
             ->getMock();
-        $productPriceRecalculationSchedulerMock = $this->getMockBuilder(ProductPriceRecalculationScheduler::class)
+        $productPriceRecalculatorMock = $this->getMockBuilder(ProductPriceRecalculator::class)
             ->setMethods(null)
             ->disableOriginalConstructor()
             ->getMock();
@@ -310,7 +311,7 @@ class ProductServiceTest extends TestCase
             $inputPriceCalculationMock,
             $basePriceCalculationMock,
             $pricingSettingMock,
-            $productPriceRecalculationSchedulerMock,
+            $productPriceRecalculatorMock,
             new ProductCategoryDomainFactory()
         );
 
@@ -350,7 +351,7 @@ class ProductServiceTest extends TestCase
             ->setMethods(null)
             ->disableOriginalConstructor()
             ->getMock();
-        $productPriceRecalculationSchedulerMock = $this->getMockBuilder(ProductPriceRecalculationScheduler::class)
+        $productPriceRecalculatorMock = $this->getMockBuilder(ProductPriceRecalculator::class)
             ->setMethods(null)
             ->disableOriginalConstructor()
             ->getMock();
@@ -360,7 +361,7 @@ class ProductServiceTest extends TestCase
             $inputPriceCalculationMock,
             $basePriceCalculationMock,
             $pricingSettingMock,
-            $productPriceRecalculationSchedulerMock,
+            $productPriceRecalculatorMock,
             new ProductCategoryDomainFactory()
         );
 
@@ -388,7 +389,7 @@ class ProductServiceTest extends TestCase
         $inputPriceCalculationMock = $this->createMock(InputPriceCalculation::class);
         $basePriceCalculationMock = $this->createMock(BasePriceCalculation::class);
         $pricingSettingMock = $this->createMock(PricingSetting::class);
-        $productPriceRecalculationSchedulerMock = $this->createMock(ProductPriceRecalculationScheduler::class);
+        $productPriceRecalculatorMock = $this->createMock(ProductPriceRecalculator::class);
 
         $productMock1 = $this->getMockBuilder(Product::class)
             ->setMethods(['getId'])
@@ -409,7 +410,7 @@ class ProductServiceTest extends TestCase
             $inputPriceCalculationMock,
             $basePriceCalculationMock,
             $pricingSettingMock,
-            $productPriceRecalculationSchedulerMock,
+            $productPriceRecalculatorMock,
             new ProductCategoryDomainFactory()
         );
 

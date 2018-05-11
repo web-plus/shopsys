@@ -7,7 +7,7 @@ use Shopsys\FrameworkBundle\Model\Pricing\InputPriceCalculation;
 use Shopsys\FrameworkBundle\Model\Pricing\PricingSetting;
 use Shopsys\FrameworkBundle\Model\Pricing\Vat\Vat;
 use Shopsys\FrameworkBundle\Model\Product\Pricing\ProductPriceCalculation;
-use Shopsys\FrameworkBundle\Model\Product\Pricing\ProductPriceRecalculationScheduler;
+use Shopsys\FrameworkBundle\Model\Product\Pricing\ProductPriceRecalculator;
 use Shopsys\FrameworkBundle\Model\Product\Pricing\ProductSellingPrice;
 
 class ProductService
@@ -33,29 +33,29 @@ class ProductService
     private $pricingSetting;
 
     /**
-     * @var \Shopsys\FrameworkBundle\Model\Product\Pricing\ProductPriceRecalculationScheduler
-     */
-    private $productPriceRecalculationScheduler;
-
-    /**
      * @var \Shopsys\FrameworkBundle\Model\Product\ProductCategoryDomainFactoryInterface
      */
     protected $productCategoryDomainFactory;
+
+    /**
+     * @var \Shopsys\FrameworkBundle\Model\Product\Pricing\ProductPriceRecalculator
+     */
+    protected $productPriceRecalculator;
 
     public function __construct(
         ProductPriceCalculation $productPriceCalculation,
         InputPriceCalculation $inputPriceCalculation,
         BasePriceCalculation $basePriceCalculation,
         PricingSetting $pricingSetting,
-        ProductPriceRecalculationScheduler $productPriceRecalculationScheduler,
+        ProductPriceRecalculator $productPriceRecalculator,
         ProductCategoryDomainFactoryInterface $productCategoryDomainFactory
     ) {
         $this->productPriceCalculation = $productPriceCalculation;
         $this->inputPriceCalculation = $inputPriceCalculation;
         $this->basePriceCalculation = $basePriceCalculation;
         $this->pricingSetting = $pricingSetting;
-        $this->productPriceRecalculationScheduler = $productPriceRecalculationScheduler;
         $this->productCategoryDomainFactory = $productCategoryDomainFactory;
+        $this->productPriceRecalculator = $productPriceRecalculator;
     }
 
     /**
@@ -102,7 +102,7 @@ class ProductService
     public function edit(Product $product, ProductData $productData)
     {
         $product->edit($this->productCategoryDomainFactory, $productData);
-        $this->productPriceRecalculationScheduler->scheduleProductForImmediateRecalculation($product);
+        $this->productPriceRecalculator->recalculateProductPrices($product);
         $this->markProductForVisibilityRecalculation($product);
     }
 
@@ -113,7 +113,7 @@ class ProductService
     public function setInputPrice(Product $product, $inputPrice)
     {
         $product->setPrice($inputPrice);
-        $this->productPriceRecalculationScheduler->scheduleProductForImmediateRecalculation($product);
+        $this->productPriceRecalculator->recalculateProductPrices($product);
     }
 
     /**
@@ -123,7 +123,7 @@ class ProductService
     public function changeVat(Product $product, Vat $vat)
     {
         $product->changeVat($vat);
-        $this->productPriceRecalculationScheduler->scheduleProductForImmediateRecalculation($product);
+        $this->productPriceRecalculator->recalculateProductPrices($product);
     }
 
     /**
