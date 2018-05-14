@@ -107,7 +107,7 @@ class OrderProductFacade
             $this->productSellingDeniedRecalculator->calculateSellingDeniedForProduct($relevantProduct);
             $this->productHiddenRecalculator->calculateHiddenForProduct($relevantProduct);
             $this->productAvailabilityRecalculationScheduler->scheduleProductForImmediateRecalculation($relevantProduct);
-            $this->productService->markProductForVisibilityRecalculation($relevantProduct);
+            $relevantProduct->markProductForVisibilityRecalculation();
         }
         $this->em->flush($relevantProducts);
 

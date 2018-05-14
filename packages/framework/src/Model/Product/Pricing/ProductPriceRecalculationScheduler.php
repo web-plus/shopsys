@@ -2,7 +2,6 @@
 
 namespace Shopsys\FrameworkBundle\Model\Product\Pricing;
 
-use Shopsys\FrameworkBundle\Model\Product\Product;
 use Shopsys\FrameworkBundle\Model\Product\ProductRepository;
 
 class ProductPriceRecalculationScheduler

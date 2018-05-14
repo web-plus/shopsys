@@ -103,7 +103,7 @@ class ProductService
     {
         $product->edit($this->productCategoryDomainFactory, $productData);
         $this->productPriceRecalculator->recalculateProductPrices($product);
-        $this->markProductForVisibilityRecalculation($product);
+        $product->markProductForVisibilityRecalculation();
     }
 
     /**

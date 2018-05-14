@@ -9,7 +9,6 @@ use Shopsys\FrameworkBundle\Model\Pricing\PricingSetting;
 use Shopsys\FrameworkBundle\Model\Pricing\Vat\Vat;
 use Shopsys\FrameworkBundle\Model\Pricing\Vat\VatData;
 use Shopsys\FrameworkBundle\Model\Product\Pricing\ProductPriceCalculation;
-use Shopsys\FrameworkBundle\Model\Product\Pricing\ProductPriceRecalculationScheduler;
 use Shopsys\FrameworkBundle\Model\Product\Pricing\ProductPriceRecalculator;
 use Shopsys\FrameworkBundle\Model\Product\Product;
 use Shopsys\FrameworkBundle\Model\Product\ProductCategoryDomainFactory;
@@ -232,155 +231,12 @@ class ProductServiceTest extends TestCase
             new ProductCategoryDomainFactory()
         );
 
-        $productData = new ProductData();
+        $productData = new ProductData();ProductPriceRecalculationScheluderer
         $variant = Product::create($productData);
         $mainVariant = Product::createMainVariant($productData, [$variant]);
 
         $this->assertEmpty($productService->delete($mainVariant)->getProductsForRecalculations());
         $this->assertFalse($variant->isVariant());
-    }
-
-    public function testMarkProductForVisibilityRecalculation()
-    {
-        $productPriceCalculationMock = $this->getMockBuilder(ProductPriceCalculation::class)
-            ->setMethods(null)
-            ->disableOriginalConstructor()
-            ->getMock();
-        $inputPriceCalculationMock = $this->getMockBuilder(InputPriceCalculation::class)
-            ->setMethods(null)
-            ->disableOriginalConstructor()
-            ->getMock();
-        $basePriceCalculationMock = $this->getMockBuilder(BasePriceCalculation::class)
-            ->setMethods(null)
-            ->disableOriginalConstructor()
-            ->getMock();
-        $pricingSettingMock = $this->getMockBuilder(PricingSetting::class)
-            ->setMethods(null)
-            ->disableOriginalConstructor()
-            ->getMock();
-        $productPriceRecalculatorMock = $this->getMockBuilder(ProductPriceRecalculator::class)
-            ->setMethods(null)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $productService = new ProductService(
-            $productPriceCalculationMock,
-            $inputPriceCalculationMock,
-            $basePriceCalculationMock,
-            $pricingSettingMock,
-            $productPriceRecalculatorMock,
-            new ProductCategoryDomainFactory()
-        );
-
-        $productMock = $this->getMockBuilder(Product::class)
-            ->setMethods(['markForVisibilityRecalculation', 'isMainVariant', 'isVariant'])
-            ->disableOriginalConstructor()
-            ->getMock();
-        $productMock->expects($this->atLeastOnce())->method('markForVisibilityRecalculation');
-        $productMock->expects($this->any())->method('isMainVariant')->willReturn(false);
-        $productMock->expects($this->atLeastOnce())->method('isVariant')->willReturn(false);
-
-        $productService->markProductForVisibilityRecalculation($productMock);
-    }
-
-    public function testMarkProductForVisibilityRecalculationMainVariant()
-    {
-        $productPriceCalculationMock = $this->getMockBuilder(ProductPriceCalculation::class)
-            ->setMethods(null)
-            ->disableOriginalConstructor()
-            ->getMock();
-        $inputPriceCalculationMock = $this->getMockBuilder(InputPriceCalculation::class)
-            ->setMethods(null)
-            ->disableOriginalConstructor()
-            ->getMock();
-        $basePriceCalculationMock = $this->getMockBuilder(BasePriceCalculation::class)
-            ->setMethods(null)
-            ->disableOriginalConstructor()
-            ->getMock();
-        $pricingSettingMock = $this->getMockBuilder(PricingSetting::class)
-            ->setMethods(null)
-            ->disableOriginalConstructor()
-            ->getMock();
-        $productPriceRecalculatorMock = $this->getMockBuilder(ProductPriceRecalculator::class)
-            ->setMethods(null)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $productService = new ProductService(
-            $productPriceCalculationMock,
-            $inputPriceCalculationMock,
-            $basePriceCalculationMock,
-            $pricingSettingMock,
-            $productPriceRecalculatorMock,
-            new ProductCategoryDomainFactory()
-        );
-
-        $variantMock = $this->getMockBuilder(Product::class)
-            ->setMethods(['markForVisibilityRecalculation'])
-            ->disableOriginalConstructor()
-            ->getMock();
-        $variantMock->expects($this->atLeastOnce())->method('markForVisibilityRecalculation');
-
-        $mainVariantMock = $this->getMockBuilder(Product::class)
-            ->setMethods(['markForVisibilityRecalculation', 'isMainVariant', 'isVariant', 'getVariants'])
-            ->disableOriginalConstructor()
-            ->getMock();
-        $mainVariantMock->expects($this->atLeastOnce())->method('markForVisibilityRecalculation');
-        $mainVariantMock->expects($this->atLeastOnce())->method('isMainVariant')->willReturn(true);
-        $mainVariantMock->expects($this->any())->method('isVariant')->willReturn(false);
-        $mainVariantMock->expects($this->atLeastOnce())->method('getVariants')->willReturn([$variantMock]);
-
-        $productService->markProductForVisibilityRecalculation($mainVariantMock);
-    }
-
-    public function testMarkProductForVisibilityRecalculationVariant()
-    {
-        $productPriceCalculationMock = $this->getMockBuilder(ProductPriceCalculation::class)
-            ->setMethods(null)
-            ->disableOriginalConstructor()
-            ->getMock();
-        $inputPriceCalculationMock = $this->getMockBuilder(InputPriceCalculation::class)
-            ->setMethods(null)
-            ->disableOriginalConstructor()
-            ->getMock();
-        $basePriceCalculationMock = $this->getMockBuilder(BasePriceCalculation::class)
-            ->setMethods(null)
-            ->disableOriginalConstructor()
-            ->getMock();
-        $pricingSettingMock = $this->getMockBuilder(PricingSetting::class)
-            ->setMethods(null)
-            ->disableOriginalConstructor()
-            ->getMock();
-        $productPriceRecalculatorMock = $this->getMockBuilder(ProductPriceRecalculator::class)
-            ->setMethods(null)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $productService = new ProductService(
-            $productPriceCalculationMock,
-            $inputPriceCalculationMock,
-            $basePriceCalculationMock,
-            $pricingSettingMock,
-            $productPriceRecalculatorMock,
-            new ProductCategoryDomainFactory()
-        );
-
-        $mainVariantMock = $this->getMockBuilder(Product::class)
-            ->setMethods(['markForVisibilityRecalculation'])
-            ->disableOriginalConstructor()
-            ->getMock();
-        $mainVariantMock->expects($this->once())->method('markForVisibilityRecalculation');
-
-        $variantMock = $this->getMockBuilder(Product::class)
-            ->setMethods(['markForVisibilityRecalculation', 'isMainVariant', 'isVariant', 'getMainVariant'])
-            ->disableOriginalConstructor()
-            ->getMock();
-        $variantMock->expects($this->atLeastOnce())->method('markForVisibilityRecalculation');
-        $variantMock->expects($this->any())->method('isMainVariant')->willReturn(false);
-        $variantMock->expects($this->atLeastOnce())->method('isVariant')->willReturn(true);
-        $variantMock->expects($this->atLeastOnce())->method('getMainVariant')->willReturn($mainVariantMock);
-
-        $productService->markProductForVisibilityRecalculation($variantMock);
     }
 
     public function testSortingProducts()
