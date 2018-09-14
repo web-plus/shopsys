@@ -57,6 +57,13 @@ class CartFactoryTest extends TestCase
             ->getMock();
         $cartWatcherFacade->expects($this->any())->method('checkCartModifications');
 
+        $this->x();
+
         return new CartFactory($cartItemRepository, $cartWatcherFacade, new EntityNameResolver([]));
+    }
+
+    private function x()
+    {
+        return 'abcd';
     }
 }
