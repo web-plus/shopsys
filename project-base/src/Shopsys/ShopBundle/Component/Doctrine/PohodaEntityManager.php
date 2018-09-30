@@ -7,6 +7,7 @@ use Doctrine\ORM\Configuration;
 use Doctrine\ORM\Decorator\EntityManagerDecorator;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMException;
+use Doctrine\ORM\Query\ResultSetMapping;
 
 class PohodaEntityManager extends EntityManagerDecorator
 {
@@ -26,4 +27,17 @@ class PohodaEntityManager extends EntityManagerDecorator
     {
         return new self(EntityManager::create($conn, $config, $eventManager));
     }
+
+    /**
+     * @return \DateTime
+     */
+    public function getCurrentDateTimeFromPohodaDatabase()
+    {
+        $rsm = new ResultSetMapping();
+        $rsm->addScalarResult('datetime', 'datetime');
+        $query = $this->createNativeQuery('SELECT GETDATE() as datetime', $rsm);
+        $dateTimeStringWithMicroSeconds = $query->getSingleScalarResult();
+        return new \DateTime($dateTimeStringWithMicroSeconds);
+    }
+}
 }
