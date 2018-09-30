@@ -20,3 +20,12 @@ parameters:
     microservice_product_search_export_url: 'http://microservice-product-search-export'
 
     secret: ThisTokenIsNotSoSecretChangeIt
+
+    pohoda_database_driver: pdo_sqlsrv
+    pohoda_database_host: 10.10.11.189
+    pohoda_database_port: 1433
+    pohoda_database_name: StwPh_123456
+    pohoda_database_user: pohodasql
+    pohoda_database_password: pohoda123
+    pohoda_database_charset: UTF8
+    pohoda_database_server_version: 12.0

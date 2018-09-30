@@ -50,3 +50,11 @@ services:
     Shopsys\FrameworkBundle\Model\Product\ProductDataFactoryInterface: '@Shopsys\ShopBundle\Model\Product\ProductDataFactory'
 
     Shopsys\FrameworkBundle\Model\Product\Brand\BrandDataFactoryInterface: '@Shopsys\ShopBundle\Model\Product\Brand\BrandDataFactory'
+
+    doctrine.orm.is_pohoda_entity_manager:
+      class: Shopsys\ShopBundle\Component\Doctrine\PohodaEntityManager
+      lazy:  true # important, frontend does not need PohodaEntityManager, see ocramius/proxy-manager
+      factory: [Shopsys\ShopBundle\Component\Doctrine\PohodaEntityManager, create]
+      arguments:
+        - '@doctrine.dbal.is_pohoda_connection'
+        - '@doctrine.orm.is_pohoda_configuration'
