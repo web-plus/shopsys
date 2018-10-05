@@ -8,7 +8,7 @@ use Shopsys\FrameworkBundle\Component\Setting\SettingValueRepository;
 use Shopsys\FrameworkBundle\Component\Translation\TranslatableEntityDataCreator;
 use Shopsys\FrameworkBundle\Model\Pricing\Group\PricingGroupDataFactory;
 use Shopsys\FrameworkBundle\Model\Pricing\Group\PricingGroupFacade;
-use Shopsys\FrameworkBundle\Model\Product\Pricing\ProductPriceRecalculator;
+use Shopsys\FrameworkBundle\Model\Pricing\Group\PricingGroupSettingFacade;
 
 class DomainDataCreator
 {
@@ -49,7 +49,7 @@ class DomainDataCreator
      */
     private $pricingGroupFacade;
 
-    protected $productPriceRecalculator;
+    private $pricingGroupSettingFacade;
 
     public function __construct(
         Domain $domain,
@@ -59,7 +59,7 @@ class DomainDataCreator
         TranslatableEntityDataCreator $translatableEntityDataCreator,
         PricingGroupDataFactory $pricingGroupDataFactory,
         PricingGroupFacade $pricingGroupFacade,
-        ProductPriceRecalculator $productPriceRecalculator
+        PricingGroupSettingFacade $pricingGroupSettingFacade
     ) {
         $this->domain = $domain;
         $this->setting = $setting;
@@ -68,9 +68,7 @@ class DomainDataCreator
         $this->translatableEntityDataCreator = $translatableEntityDataCreator;
         $this->pricingGroupDataFactory = $pricingGroupDataFactory;
         $this->pricingGroupFacade = $pricingGroupFacade;
-        $this->productPriceRecalculator = $productPriceRecalculator;
-
-
+        $this->pricingGroupSettingFacade = $pricingGroupSettingFacade;
     }
 
     /**
@@ -147,5 +145,99 @@ class DomainDataCreator
         $pricingGroupData = $this->pricingGroupDataFactory->create();
         $pricingGroupData->name = 'Default';
         return $this->pricingGroupFacade->create($pricingGroupData, $domainId);
+    }
+
+    /**
+     * @return array
+     */
+    public function getDomainsIdsFromDatabaseThatAreNotConfiguredInDomainsConfigs()
+    {
+        $domainsIdsByDomainsConfigs = $this->domain->getAllIds();
+        $domainsIdsBySettingValuesInDatabase = $this->settingValueRepository->getAllDomainsIdsThatAreConfiguredInTheDatabase();
+
+        $domainsIdsWithoutDomainsConfigs = [];
+        foreach ($domainsIdsBySettingValuesInDatabase as $domainIdBySettingValue) {
+            if (!in_array($domainIdBySettingValue, $domainsIdsByDomainsConfigs)) {
+                $domainsIdsWithoutDomainsConfigs[] = $domainIdBySettingValue;
+            }
+        }
+
+        return $domainsIdsWithoutDomainsConfigs;
+    }
+
+    /**
+     * @param array $domainIds
+     * @return array
+     */
+    public function removeDomainsDataForDomainsIds(array $domainIds)
+    {
+        $removedDomainsIds = [];
+        if (count($domainIds) === 0) {
+            return $removedDomainsIds;
+        }
+
+        foreach ($domainIds as $domainId) {
+            $this->settingValueRepository->removeAllMultidomainSettingsByDomainId($domainId);
+            $this->setting->clearCache();
+
+            $pricingGroups = $this->pricingGroupFacade->getByDomainId($domainId);
+
+            foreach ($pricingGroups as $pricingGroup) {
+                $this->pricingGroupFacade->delete($pricingGroup->getId());
+            }
+
+            $this->multidomainEntityDataCreator->removeAllMultidomainDataForOldDomain($domainId);
+            $removedDomainsIds[] = $domainId;
+        }
+
+        return $removedDomainsIds;
+    }
+
+    /**
+     * @return array
+     */
+    public function getLocalesFromDatabaseThatAreNotConfiguredInDomainsConfigs()
+    {
+        $domainsByDomainsConfigs = $this->domain->getAll();
+        $localesFromDatabase = $this->translatableEntityDataCreator->getAllLocalesThatAreUsedInDatabase();
+
+        return $this->getDiffBetweenLocalesFromDatabaseAndLocalesFromDomainsConfigs($domainsByDomainsConfigs, $localesFromDatabase);
+    }
+
+    /**
+     * @param \Shopsys\FrameworkBundle\Component\Domain\Config\DomainConfig[] $domainsConfigs
+     * @param array $localesFromDatabase
+     * @return array
+     */
+    private function getDiffBetweenLocalesFromDatabaseAndLocalesFromDomainsConfigs(
+        array $domainsConfigs,
+        array $localesFromDatabase
+    ) {
+        $localesFromDomainsConfigs = [];
+        foreach ($domainsConfigs as $domainsConfig) {
+            $localesFromDomainsConfigs[] = $domainsConfig->getLocale();
+        }
+
+        return array_diff($localesFromDatabase, $localesFromDomainsConfigs);
+    }
+
+    /**
+     * @param array $removedDomainIds
+     * @return \Shopsys\FrameworkBundle\Model\Pricing\Group\PricingGroup[]
+     */
+    public function getPricingGroupsInUseByDomainIds(array $removedDomainIds)
+    {
+        $pricingGroupsInUse = [];
+        foreach ($removedDomainIds as $domainId) {
+            $pricingGroups = $this->pricingGroupFacade->getByDomainId($domainId);
+
+            foreach ($pricingGroups as $pricingGroup) {
+                if ($this->pricingGroupSettingFacade->existsUserWithPricingGroup($pricingGroup)) {
+                    $pricingGroupsInUse[] = $pricingGroup;
+                }
+            }
+        }
+
+        return $pricingGroupsInUse;
     }
 }

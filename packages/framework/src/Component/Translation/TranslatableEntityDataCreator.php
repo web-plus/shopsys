@@ -99,4 +99,43 @@ class TranslatableEntityDataCreator
             'templateLocale' => $templateLocale,
         ]);
     }
+
+    /**
+     * @return array
+     */
+    public function getAllLocalesThatAreUsedInDatabase()
+    {
+        $tableNames = $this->getTableNamesOfTranslatableEntities();
+
+        $locales = [];
+        foreach ($tableNames as $tableName) {
+            $quotedTableName = $this->sqlQuoter->quoteIdentifier($tableName);
+
+            $query = $this->em->createNativeQuery(
+                'SELECT locale
+            FROM ' . $quotedTableName . '
+            GROUP BY locale',
+                new ResultSetMapping()
+            );
+
+            $rows = $query->execute();
+            foreach ($rows as $row) {
+                $locales[] = $row['locale'];
+            }
+        }
+
+        return array_unique($locales);
+    }
+
+    /**
+     * @return array
+     */
+    private function getTableNamesOfTranslatableEntities()
+    {
+        $translatableColumnsIndexedByTableName = $this->notNullableColumnsFinder->getAllNotNullableColumnNamesIndexedByTableName(
+            $this->getAllTranslatableEntitiesMetadata()
+        );
+
+        return array_keys($translatableColumnsIndexedByTableName);
+    }
 }

@@ -78,4 +78,36 @@ class MultidomainEntityDataCreator
             'templateDomainId' => $templateDomainId,
         ]);
     }
+
+    /**
+     * @param int $newDomainId
+     */
+    public function removeAllMultidomainDataForOldDomain($domainId)
+    {
+        $columnNamesIndexedByTableName = $this->multidomainEntityClassFinderFacade
+            ->getAllNotNullableColumnNamesIndexedByTableName();
+        foreach ($columnNamesIndexedByTableName as $tableName => $columnNames) {
+            $this->removeMultidomainDataForOldDomain(
+                $domainId,
+                $tableName
+            );
+        }
+    }
+
+    /**
+     * @param int $domainId
+     * @param string $tableName
+     */
+    private function removeMultidomainDataForOldDomain(int $domainId, string $tableName)
+    {
+        $quotedTableName = $this->sqlQuoter->quoteIdentifier($tableName);
+        $query = $this->em->createNativeQuery(
+            'DELETE FROM ' . $quotedTableName . '
+            WHERE domain_id = :domainId',
+            new ResultSetMapping()
+        );
+        $query->execute([
+            'domainId' => $domainId,
+        ]);
+    }
 }

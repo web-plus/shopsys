@@ -62,4 +62,36 @@ class SettingValueRepository
             'commonDomainId' => SettingValue::DOMAIN_ID_COMMON,
         ]);
     }
+
+    public function getAllDomainsIdsThatAreConfiguredInTheDatabase()
+    {
+        $query = $this->getSettingValueRepository()->createQueryBuilder('sv')
+            ->select('sv.domainId')
+            ->where('sv.domainId > 0')
+            ->groupBy('sv.domainId');
+
+        $rows = $query->getQuery()->execute();
+
+        $domainsIds = [];
+        foreach ($rows as $row) {
+            $domainsIds[] = $row['domainId'];
+        }
+
+        return $domainsIds;
+    }
+
+    /**
+     * @param int $domainId
+     */
+    public function removeAllMultidomainSettingsByDomainId(int $domainId)
+    {
+        $nativeQuery = $this->em->createNativeQuery(
+            'DELETE FROM setting_values WHERE domain_id = :domainId',
+            new ResultSetMapping()
+        );
+
+        $nativeQuery->execute([
+            'domainId' => $domainId,
+        ]);
+    }
 }

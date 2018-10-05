@@ -87,7 +87,7 @@ class CreateDomainsDataCommand extends Command
     {
         $output->writeln('Start of creating new domains data.');
 
-        $this->domainDbFunctionsFacade->createDomainDbFunctions();
+        $this->domainDbFunctionsFacade->actualizeDomainDbFunctionsByDomainConfigs();
         $domainsCreated = $this->domainDataCreator->createNewDomainsData();
 
         $output->writeln('<fg=green>New domains created: ' . $domainsCreated . '.</fg=green>');

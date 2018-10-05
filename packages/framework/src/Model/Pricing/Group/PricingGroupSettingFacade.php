@@ -93,4 +93,13 @@ class PricingGroupSettingFacade
     {
         return $pricingGroup === $this->getDefaultPricingGroupBySelectedDomain();
     }
+
+    /**
+     * @param \Shopsys\FrameworkBundle\Model\Pricing\Group\PricingGroup $pricingGroup
+     * @return bool
+     */
+    public function existsUserWithPricingGroup(PricingGroup $pricingGroup)
+    {
+        return $this->pricingGroupRepository->existsUserWithPricingGroup($pricingGroup);
+    }
 }
