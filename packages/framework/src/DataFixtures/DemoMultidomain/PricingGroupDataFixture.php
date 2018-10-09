@@ -44,8 +44,6 @@ class PricingGroupDataFixture extends AbstractReferenceFixture
 
             $this->pricingGroupFacade->edit($pricingGroup->getId(), $pricingGroupData);
             $this->addReference(self::PRICING_GROUP_ORDINARY_DOMAIN_2, $pricingGroup);
-        } else {
-            $this->createPricingGroup($pricingGroupData, $domainId, self::PRICING_GROUP_ORDINARY_DOMAIN_2);
         }
 
         $pricingGroupData->name = 'VIP zákazník';
