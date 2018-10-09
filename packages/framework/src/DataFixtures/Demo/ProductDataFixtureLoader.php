@@ -168,15 +168,13 @@ class ProductDataFixtureLoader
     private function updateProductDataFromCsvRowForFirstDomain(ProductData $productData, array $row)
     {
         $domainId = 1;
-        $locale = 'en';
         $csvColumnNameWithLocalizedProductName = self::COLUMN_NAME_EN;
 
         if ($this->domain->getDomainConfigById($domainId)->getLocale() == 'cs') {
-            $locale = 'cs';
             $csvColumnNameWithLocalizedProductName = self::COLUMN_NAME_CS;
         }
 
-        $productData->name[$locale] = $row[$csvColumnNameWithLocalizedProductName];
+        $productData->name[$this->domain->getDomainConfigById($domainId)->getLocale()] = $row[$csvColumnNameWithLocalizedProductName];
         $productData->catnum = $row[self::COLUMN_CATNUM];
         $productData->partno = $row[self::COLUMN_PARTNO];
         $productData->ean = $row[self::COLUMN_EAN];
