@@ -2,6 +2,7 @@
 
 namespace Shopsys\FrameworkBundle\Migrations;
 
+use Doctrine\DBAL\Migrations\Version;
 use Doctrine\DBAL\Schema\Schema;
 use Shopsys\MigrationBundle\Component\Doctrine\Migrations\AbstractMigration;
 
@@ -152,6 +153,7 @@ class Version20180702111020 extends AbstractMigration
         $domainDataCreatedSettingCount = $this->sql('SELECT COUNT(*) FROM setting_values WHERE name = \'domainDataCreated\' AND domain_id = 1;')->fetchColumn(0);
         if ($domainDataCreatedSettingCount <= 0) {
             $this->sql('INSERT INTO setting_values (name, domain_id, value, type) VALUES (\'domainDataCreated\', 1, \'true\', \'boolean\')');
+            $this->sql('INSERT INTO setting_values (name, domain_id, value, type) VALUES (\'domainLocale\', 1, \'en\', \'string\')');
         }
     }
 

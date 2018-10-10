@@ -21,6 +21,7 @@ class Setting
     const FEED_NAME_TO_CONTINUE = 'feedNameToContinue';
     const FEED_DOMAIN_ID_TO_CONTINUE = 'feedDomainIdToContinue';
     const FEED_ITEM_ID_TO_CONTINUE = 'feedItemIdToContinue';
+    const DOMAIN_LOCALE = 'domainLocale';
 
     /**
      * @var \Doctrine\ORM\EntityManagerInterface
