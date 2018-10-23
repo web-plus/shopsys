@@ -55,6 +55,7 @@ There is a list of all the repositories maintained by monorepo, changes in log b
         - copy [`docker/php-fpm/Dockerfile`](https://github.com/shopsys/shopsys/blob/master/project-base/docker/php-fpm/Dockerfile) from GitHub
         - update the build config in `docker-compose.yml` ([changes in version and build config can be seen in the PR](https://github.com/shopsys/shopsys/pull/533/files#diff-1aa104f9fc120d0743883a5ba02bfe21))
     - rebuild images by running `docker-compose up -d --build`
+- *(optional)* you can change your `Shopsys\Environment` class for consistent env setting during `composer install` ([see diff](https://github.com/shopsys/shopsys/pull/543/files#diff-02efa1bf1cc55b01e582e2b8bff3f2f7))
 
 ## [From 7.0.0-beta1 to 7.0.0-beta2]
 ### [shopsys/project-base]
