@@ -25,7 +25,8 @@ class Environment
         if (!$environmentFileSetting->isAnyEnvironmentSet()) {
             $environment = $event->isDevMode() ? EnvironmentType::DEVELOPMENT : EnvironmentType::PRODUCTION;
             $environmentFileSetting->createFileForEnvironment($environment);
-            $io->write(sprintf('Created a file "%s" to set the application environment!', $environment));
+            $environmentFilePath = $environmentFileSetting->getEnvironmentFilePath($environment);
+            $io->write(sprintf('Created a file "%s" to set the application environment!', $environmentFilePath));
         }
         self::printEnvironmentInfo($io);
     }
