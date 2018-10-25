@@ -25,8 +25,8 @@
 
 {% block grid_value_cell_id_calculatedVisibility %}
     {% if isMultidomain() %}
-        <span class="js-product-visibility position-relative" data-visibility-url="{{ url('admin_product_visibility', {productId: row.p.id}) }}">
-            <span class="js-product-visibility-icon in-icon svg
+        <span class="js-visibility position-relative" data-visibility-url="{{ url('admin_product_visibility', {productId: row.p.id}) }}">
+            <span class="js-visibility-icon in-icon svg
                 {% if isVisibleForDefaultPricingGroupOnEachDomain(row.product) %}
                     svg-visible in-icon--visible
                 {% elseif value and not isVisibleForDefaultPricingGroupOnEachDomain(row.product) %}
@@ -35,8 +35,8 @@
                     svg-invisible in-icon--invisible
                 {% endif %}"
             ></span>
-            <span class="js-product-visibility-box">
-                <span class="product-visibility js-product-visibility-box-window display-none"></span>
+            <span class="js-visibility-box">
+                <span class="product-visibility js-visibility-box-window display-none"></span>
             </span>
         </span>
     {% else %}

@@ -494,10 +494,10 @@
 {% endblock product_row %}
 
 {% block product_widget %}
-    <span class="js-product-picker-container" data-placeholder="{{ placeholder }}">
+    <span class="js-picker-container" data-placeholder="{{ placeholder }}">
         <span class="form-line__item">
             <input
-                class="input js-product-picker-label"
+                class="input js-picker-label"
                 value="{{ productName|default(placeholder) }}"
                 disabled="disabled"
                 readonly="readonly"
@@ -506,8 +506,8 @@
         <span class="form-line__item">
             <button
                 type="button"
-                data-product-picker-url="{{ url('admin_productpicker_picksingle', {allowMainVariants: allow_main_variants, allowVariants: allow_variants}) }}"
-                class="js-product-picker-create-picker-button btn btn--default"
+                data-picker-url="{{ url('admin_productpicker_picksingle', {allowMainVariants: allow_main_variants, allowVariants: allow_variants}) }}"
+                class="js-picker-create-picker-button btn btn--default"
                 title="{{ 'Click to go to product section'|trans }}"
                 type="button"
             >
@@ -515,11 +515,11 @@
             </button>
         </span>
         {% if enableRemove %}
-            <a href="#" class="js-product-picker-remove-button display-none">
+            <a href="#" class="js-picker-remove-button display-none">
                 {{ 'Remove'|trans }}
             </a>
         {% endif %}
-        {{- form_widget(form, {attr: {class: 'js-product-picker-input'}}) -}}
+        {{- form_widget(form, {attr: {class: 'js-picker-input'}}) -}}
     </span>
 {% endblock product_widget %}
 
@@ -551,7 +551,7 @@
                     <span class="in-icon in-icon--move svg svg-move"></span>
                 </span>
             {% endif %}
-            <span class="js-products-picker-item-product-name">
+            <span class="js-products-picker-item-name">
                 {% if product is not null %}
                     <a href="{{ url('admin_product_edit', {id: product.id}) }}" target="_blank" class="btn-link-style btn-link-style--iconic-l">
                         <span>{{ product.name }}</span>&nbsp;<i class="svg svg-forward-page"></i>
@@ -575,7 +575,7 @@
         {{ block('widget_attributes') }}
         data-products-picker-prototype="{{ self.productsWidgetItem(null, form.vars.prototype, form.vars.sortable)|e }}"
         data-products-picker-url="{{ url('admin_productpicker_pickmultiple', {jsInstanceId: '__js_instance_id__', allowMainVariants: allow_main_variants, allowVariants: allow_variants}) }}"
-        data-products-picker-main-product-id="{{ form.vars.main_product ? form.vars.main_product.id : '' }}"
+        data-products-picker-main-id="{{ form.vars.main_product ? form.vars.main_product.id : '' }}"
     >
         <table class="table-form margin-bottom-20">
             <thead class="js-products-picker-header">

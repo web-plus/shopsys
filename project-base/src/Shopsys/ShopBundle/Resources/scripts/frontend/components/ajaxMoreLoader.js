@@ -1,29 +1,31 @@
 (function ($) {
 
     Shopsys = window.Shopsys || {};
-    Shopsys.productList = Shopsys.productList || {};
-    Shopsys.productList.AjaxMoreLoader = Shopsys.productList.AjaxMoreLoader || {};
+    Shopsys.ajaxMoreLoader = Shopsys.ajaxMoreLoader || {};
+    Shopsys.ajaxMoreLoader.AjaxMoreLoader = Shopsys.ajaxMoreLoader.AjaxMoreLoader || {};
 
-    Shopsys.productList.AjaxMoreLoader = function () {
+    Shopsys.ajaxMoreLoader.AjaxMoreLoader = function ($wrapper) {
         var self = this;
         var $loadMoreButton;
-        var $currentProductList;
+        var $currentList;
         var $paginationToItemSpan;
 
         var totalCount;
         var pageSize;
         var page;
         var paginationToItem;
+        var type;
 
         this.init = function () {
-            $loadMoreButton = $('.js-load-more-button');
-            $currentProductList = $('.js-product-list');
-            $paginationToItemSpan = $('.js-pagination-to-item');
+            $loadMoreButton = $wrapper.filterAllNodes('.js-load-more-button');
+            $currentList = $wrapper.filterAllNodes('.js-list');
+            $paginationToItemSpan = $wrapper.filterAllNodes('.js-pagination-to-item');
 
             totalCount = $loadMoreButton.data('total-count');
             pageSize = $loadMoreButton.data('page-size');
             page = $loadMoreButton.data('page');
             paginationToItem = $loadMoreButton.data('pagination-to-item');
+            type = $loadMoreButton.data('type');
 
             updateLoadMoreButton();
             $loadMoreButton.on('click', onClickLoadMoreButton);
@@ -35,15 +37,24 @@
 
         var onClickLoadMoreButton = function () {
             $(this).hide();
+
+            var requestData = {
+                page: page + 1
+            };
+
+            if (typeof type !== 'undefined') {
+                requestData['type'] = type;
+            }
+
             Shopsys.ajax({
-                loaderElement: '.js-product-list-with-paginator',
+                loaderElement: $wrapper,
                 type: 'GET',
                 url: document.location,
-                data: {page: page + 1},
+                data: requestData,
                 success: function (data) {
                     var $response = $($.parseHTML(data));
-                    var $nextProducts = $response.find('.js-product-list > li');
-                    $currentProductList.append($nextProducts);
+                    var $nextProducts = $response.find('.js-list > li');
+                    $currentList.append($nextProducts);
                     page++;
                     paginationToItem += $nextProducts.length;
                     $paginationToItemSpan.text(paginationToItem);

@@ -181,7 +181,7 @@
                         <tbody
                             id="js-order-items"
                             data-prototype="{{ orderItemMacro.orderItem(form.itemsWithoutTransportAndPayment.vars.prototype)|escape }}"
-                            data-order-product-add-url="{{ url('admin_order_addproduct', { orderId: order.id }) }}"
+                            data-order-add-url="{{ url('admin_order_addproduct', { orderId: order.id }) }}"
                         >
                             {% for productItem in order.productItems %}
                                 {{ orderItemMacro.orderItem(form.itemsWithoutTransportAndPayment[productItem.id], productItem.id, orderItemTotalPricesById, order.currency, productItem) }}
@@ -203,7 +203,7 @@
                                         <i class="btn__icon">+</i>
                                         {{ 'Add item'|trans }}
                                     </a>
-                                    <a id="js-order-item-add-product" href="#" class="btn btn--plus" data-product-picker-url="{{ url('admin_productpicker_picksingle', {allowMainVariants: false}) }}">
+                                    <a id="js-order-item-add-product" href="#" class="btn btn--plus" data-picker-url="{{ url('admin_productpicker_picksingle', {allowMainVariants: false}) }}">
                                         <i class="btn__icon">+</i>
                                         {{ 'Add product'|trans }}
                                     </a>

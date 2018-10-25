@@ -13,8 +13,8 @@
         {% endif %}
 
         <div class="box-filter__price">
-            {{ form_row(filterForm.minimalPrice, {label: 'Price from'|trans, symbolAfterInput: currencySymbolByDomainId(getDomain().id), attr: { class: 'js-product-filter-call-change-after-reset'} }) }}
-            {{ form_row(filterForm.maximalPrice, {label: 'Price to'|trans, symbolAfterInput: currencySymbolByDomainId(getDomain().id), attr: { class: 'js-product-filter-call-change-after-reset'} }) }}
+            {{ form_row(filterForm.minimalPrice, {label: 'Price from'|trans, symbolAfterInput: currencySymbolByDomainId(getDomain().id), attr: { class: 'js-filter-call-change-after-reset'} }) }}
+            {{ form_row(filterForm.maximalPrice, {label: 'Price to'|trans, symbolAfterInput: currencySymbolByDomainId(getDomain().id), attr: { class: 'js-filter-call-change-after-reset'} }) }}
             <div
                 class="js-range-slider"
                 data-minimum-input-id="{{ filterForm.minimalPrice.vars.id }}"
@@ -33,7 +33,7 @@
                     {{ 'Products in stock only'|trans }}
                     {% if productFilterCountData is not null %}
                         <span
-                            class="js-product-filter-count"
+                            class="js-filter-count"
                             data-form-id="{{ filterForm.inStock.vars.id }}"
                         >
                             ({{ productFilterCountData.countInStock }})
@@ -59,7 +59,7 @@
                             {{ flagForm.vars.label }}
                             {% if productFilterCountData is not null %}
                                 <span
-                                    class="js-product-filter-count"
+                                    class="js-filter-count"
                                     data-form-id="{{ flagForm.vars.id }}"
                                 >
                                     {% if not flagForm.vars.checked %}
@@ -87,7 +87,7 @@
                             {{ brandForm.vars.label }}
                             {% if productFilterCountData is not null %}
                                 <span
-                                    class="js-product-filter-count"
+                                    class="js-filter-count"
                                     data-form-id="{{ brandForm.vars.id }}"
                                 >
                                     {% set brandCount = productFilterCountData.countByBrandId[brandForm.vars.value]|default(0) %}
@@ -111,13 +111,13 @@
                 </span>
                 <div id="{{ filterForm.parameters.vars.id }}">
                     {% for parameterId, parameterForm in filterForm.parameters %}
-                        <div class="js-product-filter-parameter">
+                        <div class="js-filter-parameter">
                             <div class="box-filter__choice" id="{{ parameterForm.vars.id }}">
-                                <span class="box-filter__choice__title js-product-filter-parameter-label">
+                                <span class="box-filter__choice__title js-filter-parameter-label">
                                     {{ parameterForm.vars.label }}:
                                 </span>
                                 {% for parameterValueForm in parameterForm %}
-                                    <label class="form-choice js-product-filter-parameter-value">
+                                    <label class="form-choice js-filter-parameter-value">
                                         <span class="form-choice__input">
                                             {{ form_widget(parameterValueForm) }}
                                         </span>
@@ -125,7 +125,7 @@
                                             {{ parameterValueForm.vars.label }}
                                             {% if productFilterCountData is not null %}
                                                 <span
-                                                    class="js-product-filter-count"
+                                                    class="js-filter-count"
                                                     data-form-id="{{ parameterValueForm.vars.id }}"
                                                 >
                                                     {% if not parameterValueForm.vars.checked %}
@@ -148,8 +148,8 @@
 
         <div class="box-filter__action">
 
-            <a class="btn js-product-filter-reset-button" href="{{ resetUrl }}">{{ 'Clear filter'|trans }}</a>
-            {{ form_widget(filterForm.search, { label: 'View results'|trans, attr: {class: 'js-product-filter-show-result-button btn--primary' } }) }}
+            <a class="btn js-filter-reset-button" href="{{ resetUrl }}">{{ 'Clear filter'|trans }}</a>
+            {{ form_widget(filterForm.search, { label: 'View results'|trans, attr: {class: 'js-filter-show-result-button btn--primary' } }) }}
         </div>
 
     {{ form_end(filterForm) }}

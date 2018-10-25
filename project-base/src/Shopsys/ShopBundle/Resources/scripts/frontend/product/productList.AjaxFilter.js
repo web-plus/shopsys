@@ -5,10 +5,10 @@
     Shopsys.productList.AjaxFilter = Shopsys.productList.AjaxFilter || {};
 
     Shopsys.productList.AjaxFilter = function (ajaxMoreLoader) {
-        var $productsWithControls = $('.js-product-list-ajax-filter-products-with-controls');
+        var $productsWithControls = $('.js-list-ajax-filter-products-with-controls');
         var $productFilterForm = $('form[name="product_filter_form"]');
-        var $showResultsButton = $('.js-product-filter-show-result-button');
-        var $resetFilterButton = $('.js-product-filter-reset-button');
+        var $showResultsButton = $('.js-filter-show-result-button');
+        var $resetFilterButton = $('.js-filter-reset-button');
         var requestTimer = null;
         var requestDelay = 1000;
 
@@ -20,7 +20,7 @@
             });
 
             $showResultsButton.click(function () {
-                var $productList = $('.js-product-list');
+                var $productList = $('.js-list');
                 $('html, body').animate({ scrollTop: $productList.offset().top }, 'slow');
                 return false;
             });
@@ -29,7 +29,7 @@
                 $productFilterForm
                     .find(':radio, :checkbox').removeAttr('checked').end()
                     .find('textarea, :text, select').val('');
-                $productFilterForm.find('.js-product-filter-call-change-after-reset').change();
+                $productFilterForm.find('.js-filter-call-change-after-reset').change();
                 clearTimeout(requestTimer);
                 var resetUrl = $(this).attr('href');
                 Shopsys.history.pushReloadState(resetUrl);
@@ -41,7 +41,7 @@
         };
 
         var showProducts = function ($wrappedData) {
-            var $productsHtml = $wrappedData.find('.js-product-list-ajax-filter-products-with-controls');
+            var $productsHtml = $wrappedData.find('.js-list-ajax-filter-products-with-controls');
             $productsWithControls.html($productsHtml.html());
             $productsWithControls.show();
             ajaxMoreLoader.reInit();
@@ -49,8 +49,8 @@
         };
 
         var updateFiltersCounts = function ($wrappedData) {
-            var $existingCountElements = $('.js-product-filter-count');
-            var $newCountElements = $wrappedData.find('.js-product-filter-count');
+            var $existingCountElements = $('.js-filter-count');
+            var $newCountElements = $wrappedData.find('.js-filter-count');
 
             $newCountElements.each(function () {
                 var $newCountElement = $(this);
@@ -63,7 +63,7 @@
         };
 
         var updateFiltersDisabled = function () {
-            $('.js-product-filter-count').each(function () {
+            $('.js-filter-count').each(function () {
                 var $countElement = $(this);
 
                 var $label = $countElement.closest('label');

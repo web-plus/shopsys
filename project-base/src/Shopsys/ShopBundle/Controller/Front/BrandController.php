@@ -21,6 +21,7 @@ class BrandController extends FrontBaseController
     {
         return $this->render('@ShopsysShop/Front/Content/Brand/list.html.twig', [
             'brands' => $this->brandFacade->getAll(),
+
         ]);
     }
 }
