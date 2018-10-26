@@ -3,11 +3,7 @@ language: php
 php:
     - 7.1
     - 7.2
-
-cache:
-    directories:
-        - ~/.composer/cache
-
+-
 install:
     - composer install
 
