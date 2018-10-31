@@ -1,9 +1,10 @@
-# License Overview of Included 3rd Party Libraries
+# Open Source License Acknowledgements and Third-Party Copyrights
 
 Shopsys Framework is licensed under the terms of the [Shopsys Community License](./LICENSE).
 
-Shopsys Framework also uses some third-party components and images
-which are licensed under their own respective licenses.
+Shopsys Framework utilizes third party software from various sources. Portions of this software are copyrighted by their respective owners as indicated in the copyright notices below.
+
+The following acknowledgements pertain to this software license. 
 
 ## Main components used by Shopsys Framework
 These components are installed via `composer` or via `npm`.
@@ -12,14 +13,17 @@ You can check all the dependencies using the instructions from the section Libra
 ### Symfony Framework and Symfony Components
 License: MIT  
 https://symfony.com/doc/3.4/contributing/code/license.html
+Copyright (c) 2004-2018 Fabien Potencier
 
 ### Elasticsearch
 License: Apache License 2.0  
 https://github.com/elastic/elasticsearch-php/blob/master/LICENSE
+Copyright 2013-2014 Elasticsearch
 
 ### Grunt: The JavaScript Task Runner
 License: MIT  
-https://github.com/gruntjs/grunt/blob/master/README.md
+https://github.com/gruntjs/grunt/blob/master/LICENSE
+Copyright jQuery Foundation and other contributors, https://jquery.org/
 
 ### Phing
 License: LGPL-3.0-only  
