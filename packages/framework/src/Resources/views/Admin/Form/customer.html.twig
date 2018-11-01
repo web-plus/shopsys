@@ -1,0 +1,18 @@
+{% block customer_widget %}
+    <div class="form-line__side">
+        <div class="form-line__item form-line__item--text">
+            {% if data.customer is null%}
+                {{ 'unregistered customer'|trans }}
+            {% else %}
+                <a href="{{ path('admin_customer_edit', { id: data.customer.id }) }}" target="_blank">
+                    {% if data.customer.billingAddress.companyCustomer %}
+                        {{ data.customer.billingAddress.companyName }} -
+                    {% endif %}
+                    {{ data.customer.lastName }}
+                    {{ data.customer.firstName }}
+                    <i class="svg svg-forward-page"></i>
+                </a>
+            {% endif %}
+        </div>
+    </div>
+{% endblock customer_widget %}

@@ -50,6 +50,10 @@ There is a list of all the repositories maintained by monorepo, changes in log b
 * [shopsys/microservice-product-search-export]
 
 ## [From 7.0.0-beta2 to Unreleased]
+### [shopsys/framework]
+- [#576 OrderFormType in administration is now rendered by default](https://github.com/shopsys/shopsys/pull/576)
+    - if you have extended OrderFormType or its templay in any way you will need to review your changes and update them appropriately
+
 ### [shopsys/project-base]
 - *(optional)* [#540 domains URLs are auto-configured during "composer install"](https://github.com/shopsys/shopsys/pull/540)
     - to simplify installation, add `"Shopsys\\FrameworkBundle\\Command\\ComposerScriptHandler::postInstall"` to `post-install-cmd` and `"Shopsys\\FrameworkBundle\\Command\\ComposerScriptHandler::postUpdate"` to  `post-update-cmd` scripts in your `composer.json`

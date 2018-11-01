@@ -1,0 +1,14 @@
+{% block display_only_domain_url_widget %}
+    <div class="form-line__side">
+        <div class="form-line__item form-line__item--text">
+            <a href="{{ findUrlByDomainId(data.route, data.route_params, data.domain_id) }}" target="_blank">
+                <i class="svg svg-forward-page in-icon in-icon--link ml5 mr5"></i>
+                {% if data.name is not empty %}
+                    {{ data.name }}
+                {% else %}
+                    {{ findUrlByDomainId(data.route, data.route_params, data.domain_id) }}
+                {% endif %}
+            </a>
+        </div>
+    </div>
+{% endblock display_only_domain_url_widget %}

@@ -7,7 +7,6 @@ forms for extensions is below:
 
 * `ProductMassActionFormType`
 * `VariantFormType`
-* `OrderFormType`
 * `OrderItemFormType`
 * `OrderPaymentFormType`
 * `OrderTransportFormType`
