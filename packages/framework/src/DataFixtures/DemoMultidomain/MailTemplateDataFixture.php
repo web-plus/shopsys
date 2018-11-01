@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Shopsys\FrameworkBundle\DataFixtures\DemoMultidomain;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use Shopsys\FrameworkBundle\Component\DataFixture\AbstractReferenceFixture;
+use Shopsys\FrameworkBundle\Component\Domain\Domain;
 use Shopsys\FrameworkBundle\Model\Mail\MailTemplate;
 use Shopsys\FrameworkBundle\Model\Mail\MailTemplateData;
 use Shopsys\FrameworkBundle\Model\Mail\MailTemplateDataFactoryInterface;
@@ -21,18 +24,35 @@ class MailTemplateDataFixture extends AbstractReferenceFixture
      */
     private $mailTemplateDataFactory;
 
+    /**
+     * @var \Shopsys\FrameworkBundle\Component\Domain\Domain
+     */
+    private $domain;
+
     public function __construct(
         MailTemplateFacade $mailTemplateFacade,
-        MailTemplateDataFactoryInterface $mailTemplateDataFactory
+        MailTemplateDataFactoryInterface $mailTemplateDataFactory,
+        Domain $domain
     ) {
         $this->mailTemplateFacade = $mailTemplateFacade;
         $this->mailTemplateDataFactory = $mailTemplateDataFactory;
+        $this->domain = $domain;
     }
 
     /**
      * @param \Doctrine\Common\Persistence\ObjectManager $manager
      */
     public function load(ObjectManager $manager)
+    {
+        foreach ($this->domain->getAllIdsExcludingFirstDomain() as $domainId) {
+            $this->loadForDomain($domainId);
+        }
+    }
+
+    /**
+     * @param int $domainId
+     */
+    private function loadForDomain(int $domainId)
     {
         $mailTemplateData = $this->mailTemplateDataFactory->create();
         $mailTemplateData->name = 'order_status_1';
@@ -55,7 +75,7 @@ class MailTemplateDataFixture extends AbstractReferenceFixture
             . '{transport_instructions} <br />'
             . '{payment_instructions}';
 
-        $this->updateMailTemplate($mailTemplateData);
+        $this->updateMailTemplate($mailTemplateData, $domainId);
 
         $mailTemplateData = $this->mailTemplateDataFactory->create();
         $mailTemplateData->name = 'order_status_2';
@@ -64,7 +84,7 @@ class MailTemplateDataFixture extends AbstractReferenceFixture
         $mailTemplateData->body = 'Vážený zákazníku, <br /><br />'
             . 'Vaše objednávka se zpracovává.';
 
-        $this->updateMailTemplate($mailTemplateData);
+        $this->updateMailTemplate($mailTemplateData, $domainId);
 
         $mailTemplateData = $this->mailTemplateDataFactory->create();
         $mailTemplateData->name = 'order_status_3';
@@ -73,7 +93,7 @@ class MailTemplateDataFixture extends AbstractReferenceFixture
         $mailTemplateData->body = 'Vážený zákazníku, <br /><br />'
             . 'zpracování objednávky bylo dokončeno.';
 
-        $this->updateMailTemplate($mailTemplateData);
+        $this->updateMailTemplate($mailTemplateData, $domainId);
 
         $mailTemplateData = $this->mailTemplateDataFactory->create();
         $mailTemplateData->name = 'order_status_4';
@@ -82,7 +102,7 @@ class MailTemplateDataFixture extends AbstractReferenceFixture
         $mailTemplateData->body = 'Vážený zákazníku, <br /><br />'
             . 'Vaše objednávka byla zrušena.';
 
-        $this->updateMailTemplate($mailTemplateData);
+        $this->updateMailTemplate($mailTemplateData, $domainId);
 
         $mailTemplateData = $this->mailTemplateDataFactory->create();
         $mailTemplateData->name = 'reset_password';
@@ -91,7 +111,7 @@ class MailTemplateDataFixture extends AbstractReferenceFixture
         $mailTemplateData->body = 'Vážený zákazníku,<br /><br />'
             . 'na tomto odkazu můžete nastavit nové heslo: <a href="{new_password_url}">{new_password_url}</a>';
 
-        $this->updateMailTemplate($mailTemplateData);
+        $this->updateMailTemplate($mailTemplateData, $domainId);
 
         $mailTemplateData = $this->mailTemplateDataFactory->create();
         $mailTemplateData->name = 'registration_confirm';
@@ -104,7 +124,7 @@ class MailTemplateDataFixture extends AbstractReferenceFixture
             . 'Adresa e-shopu: {url}<br />'
             . 'Přihlašovací stránka: {login_page}';
 
-        $this->updateMailTemplate($mailTemplateData);
+        $this->updateMailTemplate($mailTemplateData, $domainId);
 
         $mailTemplateData = $this->mailTemplateDataFactory->create();
         $mailTemplateData->name = MailTemplate::PERSONAL_DATA_ACCESS_NAME;
@@ -118,7 +138,7 @@ class MailTemplateDataFixture extends AbstractReferenceFixture
             S pozdravem<br/>
             tým {domain}';
 
-        $this->updateMailTemplate($mailTemplateData);
+        $this->updateMailTemplate($mailTemplateData, $domainId);
 
         $mailTemplateData = $this->mailTemplateDataFactory->create();
         $mailTemplateData->name = MailTemplate::PERSONAL_DATA_EXPORT_NAME;
@@ -134,16 +154,15 @@ class MailTemplateDataFixture extends AbstractReferenceFixture
             S pozdravem<br/>
             tým {domain}';
 
-        $this->updateMailTemplate($mailTemplateData);
+        $this->updateMailTemplate($mailTemplateData, $domainId);
     }
 
     /**
      * @param \Shopsys\FrameworkBundle\Model\Mail\MailTemplateData $mailTemplateData
+     * @param int $domainId
      */
-    private function updateMailTemplate(MailTemplateData $mailTemplateData)
+    private function updateMailTemplate(MailTemplateData $mailTemplateData, int $domainId)
     {
-        $domainId = 2;
-
         $this->mailTemplateFacade->saveMailTemplatesData([$mailTemplateData], $domainId);
     }
 }
