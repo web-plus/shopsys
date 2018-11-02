@@ -50,6 +50,13 @@ There is a list of all the repositories maintained by monorepo, changes in log b
 * [shopsys/microservice-product-search-export]
 
 ## [From 7.0.0-beta2 to Unreleased]
+### [shopsys/framework]
+- remove all usages of `\Shopsys\FrameworkBundle\Command\LoadDataFixturesCommand` and `\Shopsys\FrameworkBundle\Component\DataFixture\FixturesLoader` as we no longer support data fixtures in multiple directories
+- we moved multidomain data fixtures in namespace `\Shopsys\FrameworkBundle\DataFixtures\DemoMultidomain` to `\Shopsys\FrameworkBundle\DataFixtures\Demo`
+    - check for their usage in your code and change the namespace appropriately
+- change calling of `\Shopsys\FrameworkBundle\DataFixtures\ProductDataFixtureReferenceInjector::loadReferences`
+    - the last parameter is no longer `bool`, but `integer` - domain ID
+
 ### [shopsys/project-base]
 - *(optional)* [#540 domains URLs are auto-configured during "composer install"](https://github.com/shopsys/shopsys/pull/540)
     - to simplify installation, add `"Shopsys\\FrameworkBundle\\Command\\ComposerScriptHandler::postInstall"` to `post-install-cmd` and `"Shopsys\\FrameworkBundle\\Command\\ComposerScriptHandler::postUpdate"` to  `post-update-cmd` scripts in your `composer.json`
@@ -62,6 +69,14 @@ There is a list of all the repositories maintained by monorepo, changes in log b
     - in your `build-dev.xml`, make your `test-create-domains-data` task dependent on `test-create-domains-db-functions` task
 - [#558 - Missing standards check in CI build process #558](https://github.com/shopsys/shopsys/pull/558)
     - the Dockerfile for `php-fpm` has changed for CI stage build, update your `docker/php-fpm/Dockerfile`
+- Make couple of changes in phing targets
+    - remove `db-fixtures-demo-multidomain` and `test-db-fixtures-demo-multidomain` and their usages
+    - switch dependency order of `db-demo` to `...,create-domains-data,db-fixtures-demo-singledomain,...`
+    - switch dependency order of `test-db-demo` to `...,test-create-domains-data,test-db-fixtures-demo-singledomain,...`
+    - change `db-fixtures-demo-singledomain` and `test-db-fixtures-demo-singledomain` command to `<arg value="doctrine:fixtures:load" />`
+      as command `shopsys:fixtures:load` doesn't exist enymore and remove `--fixtures` argument
+    - rename `db-fixtures-demo-singledomain` to `db-fixtures-demo`
+    - rename `test-db-fixtures-demo-singledomain` to `test-db-fixtures-demo`
 
 ### [shopsys/shopsys]
 - *(MacOS only)* [#503 updated docker-sync configuration](https://github.com/shopsys/shopsys/pull/503/)
