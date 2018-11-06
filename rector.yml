@@ -1,0 +1,3 @@
+paramters:
+    exclude_paths:
+        - "*/tests/*"
