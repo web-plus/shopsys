@@ -17,6 +17,9 @@ use Shopsys\FrameworkBundle\DataFixtures\Demo\VatDataFixture;
 class ProductDataFixtureReferenceInjector
 {
     /**
+     * If you pass 2nd domain or higher, references will contain also first domain
+     * If you pass higher domain than 2nd, data will be taken from 2nd CSV domain
+     *
      * @param \Shopsys\FrameworkBundle\DataFixtures\Demo\ProductDataFixtureLoader $productDataFixtureLoader
      * @param \Shopsys\FrameworkBundle\Component\DataFixture\PersistentReferenceFacade $persistentReferenceFacade
      * @param int $domainId
