@@ -114,13 +114,7 @@ class DomainDataCreator
      */
     private function isNewLocale($locale)
     {
-        foreach ($this->domain->getAll() as $domainConfig) {
-            if ($domainConfig->getLocale() === $locale) {
-                return false;
-            }
-        }
-
-        return true;
+        return !in_array(null, $this->domain->getAll(), true);
     }
 
     /**

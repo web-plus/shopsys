@@ -41,9 +41,7 @@ class DomainsConfigLoader
         }
         $processedConfigsWithUrlsByDomainId = $this->addUrlsToProcessedConfig($domainConfigsByDomainId, $domainUrlsConfigsByDomainId);
 
-        $domainConfigs = $this->loadDomainConfigsFromArray($processedConfigsWithUrlsByDomainId);
-
-        return $domainConfigs;
+        return $this->loadDomainConfigsFromArray($processedConfigsWithUrlsByDomainId);
     }
 
     /**

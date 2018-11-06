@@ -640,7 +640,7 @@ class Order
     {
         $itemsWithoutTransportAndPayment = [];
         foreach ($this->getItems() as $orderItem) {
-            if (!($orderItem instanceof OrderTransport || $orderItem instanceof OrderPayment)) {
+            if ($orderItem instanceof OrderTransport && $orderItem instanceof OrderPayment) {
                 $itemsWithoutTransportAndPayment[] = $orderItem;
             }
         }

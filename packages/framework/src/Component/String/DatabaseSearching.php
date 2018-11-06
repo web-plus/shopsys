@@ -12,12 +12,11 @@ class DatabaseSearching
     {
         // LIKE pattern must not end with escape character in Postgres
         $string = rtrim($string, '\\');
-        $string = str_replace(
+        return str_replace(
             ['%', '_', '*', '?'],
             ['\%', '\_', '%', '_'],
             $string
         );
-        return $string;
     }
 
     /**

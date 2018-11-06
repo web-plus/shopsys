@@ -54,8 +54,7 @@ class QueryBuilderService
         if (count($rootAliases) !== self::REQUIRED_ALIASES_COUNT) {
             throw new \Shopsys\FrameworkBundle\Component\Doctrine\Exception\InvalidCountOfAliasesException($rootAliases);
         }
-        $firstAlias = reset($rootAliases);
 
-        return $firstAlias;
+        return reset($rootAliases);
     }
 }

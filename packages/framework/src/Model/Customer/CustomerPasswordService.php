@@ -64,11 +64,7 @@ class CustomerPasswordService
         }
 
         $now = new DateTime();
-        if ($user->getResetPasswordHashValidThrough() === null || $user->getResetPasswordHashValidThrough() < $now) {
-            return false;
-        }
-
-        return true;
+        return !($user->getResetPasswordHashValidThrough() === null || $user->getResetPasswordHashValidThrough() < $now);
     }
 
     /**

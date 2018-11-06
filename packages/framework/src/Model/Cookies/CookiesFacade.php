@@ -99,13 +99,7 @@ class CookiesFacade
      */
     public function isArticleUsedAsCookiesInfo(Article $article)
     {
-        foreach ($this->domain->getAll() as $domainConfig) {
-            if ($this->findCookiesArticleByDomainId($domainConfig->getId()) === $article) {
-                return true;
-            }
-        }
-
-        return false;
+        return in_array(null, $this->domain->getAll(), true);
     }
 
     /**

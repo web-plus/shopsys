@@ -42,14 +42,12 @@ class StatisticsFacade
             $tomorrowDateTime
         );
 
-        $valueByDateTimeDataPoints = $this->statisticsService->normalizeDataPointsByDateTimeIntervals(
+        return $this->statisticsService->normalizeDataPointsByDateTimeIntervals(
             $valueByDateTimeDataPoints,
             $startDataTime,
             $tomorrowDateTime,
             DateInterval::createFromDateString('+ 1 day')
         );
-
-        return $valueByDateTimeDataPoints;
     }
 
     /**
@@ -65,13 +63,11 @@ class StatisticsFacade
             $tomorrowDateTime
         );
 
-        $valueByDateTimeDataPoints = $this->statisticsService->normalizeDataPointsByDateTimeIntervals(
+        return $this->statisticsService->normalizeDataPointsByDateTimeIntervals(
             $valueByDateTimeDataPoints,
             $startDataTime,
             $tomorrowDateTime,
             DateInterval::createFromDateString('+ 1 day')
         );
-
-        return $valueByDateTimeDataPoints;
     }
 }

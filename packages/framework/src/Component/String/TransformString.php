@@ -15,9 +15,8 @@ class TransformString
         $string = trim($string, '_');
         $string = self::toAscii($string);
         $string = preg_replace('~[^-\\.a-zA-Z0-9_]+~', '', $string);
-        $string = ltrim($string, '.');
 
-        return $string;
+        return ltrim($string, '.');
     }
 
     /**
@@ -41,9 +40,8 @@ class TransformString
         $slug = trim($slug, '-');
         $slug = self::toAscii($slug);
         $slug = strtolower($slug);
-        $slug = preg_replace('~[^-a-z0-9_]+~', '', $slug);
 
-        return $slug;
+        return preg_replace('~[^-a-z0-9_]+~', '', $slug);
     }
 
     /**

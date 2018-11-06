@@ -79,7 +79,7 @@ class QuantifiedProductPriceCalculation
             $user
         );
 
-        $quantifiedItemPrice = new QuantifiedItemPrice(
+        return new QuantifiedItemPrice(
             $this->productPrice,
             new Price(
                 $this->getTotalPriceWithoutVat(),
@@ -87,8 +87,6 @@ class QuantifiedProductPriceCalculation
             ),
             $product->getVat()
         );
-
-        return $quantifiedItemPrice;
     }
 
     /**

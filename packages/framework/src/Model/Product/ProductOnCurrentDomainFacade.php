@@ -233,7 +233,7 @@ class ProductOnCurrentDomainFacade
 
         $page = 1;
 
-        $paginationResult = $this->productRepository->getPaginationResultForSearchListable(
+        return $this->productRepository->getPaginationResultForSearchListable(
             $searchText,
             $this->domain->getId(),
             $this->domain->getLocale(),
@@ -243,8 +243,6 @@ class ProductOnCurrentDomainFacade
             $page,
             $limit
         );
-
-        return $paginationResult;
     }
 
     /**

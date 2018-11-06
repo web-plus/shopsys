@@ -37,11 +37,10 @@ class ProductDataFixtureCsvReader
     {
         $rawRowsWithHeader = $this->csvReader->getRowsFromCsv($this->path);
         $rawRows = array_slice($rawRowsWithHeader, 1);
-        $rows = array_map(function ($rawRow) {
+
+        return array_map(function ($rawRow) {
             return $this->prepareRawRow($rawRow);
         }, $rawRows);
-
-        return $rows;
     }
 
     /**

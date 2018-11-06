@@ -37,8 +37,7 @@ class CustomDateTimeFormatterFactory
         );
 
         $classData = $this->entityNameResolver->resolve(DateTimeFormatter::class);
-        $dateTimeFormatter = new $classData($customDateTimeFormatPatternRepository);
 
-        return $dateTimeFormatter;
+        return new $classData($customDateTimeFormatPatternRepository);
     }
 }

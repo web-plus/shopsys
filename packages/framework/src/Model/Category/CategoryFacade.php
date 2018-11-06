@@ -209,9 +209,7 @@ class CategoryFacade
      */
     public function getAllCategoriesOfCollapsedTree(array $selectedCategories)
     {
-        $categories = $this->categoryRepository->getAllCategoriesOfCollapsedTree($selectedCategories);
-
-        return $categories;
+        return $this->categoryRepository->getAllCategoriesOfCollapsedTree($selectedCategories);
     }
 
     /**
@@ -231,9 +229,8 @@ class CategoryFacade
     public function getAllCategoriesWithPreloadedChildren($locale)
     {
         $categories = $this->categoryRepository->getPreOrderTreeTraversalForAllCategories($locale);
-        $categoriesWithPreloadedChildren = $this->categoryWithPreloadedChildrenFactory->createCategoriesWithPreloadedChildren($categories);
 
-        return $categoriesWithPreloadedChildren;
+        return $this->categoryWithPreloadedChildrenFactory->createCategoriesWithPreloadedChildren($categories);
     }
 
     /**
@@ -245,9 +242,7 @@ class CategoryFacade
     {
         $categories = $this->categoryRepository->getPreOrderTreeTraversalForVisibleCategoriesByDomain($domainId, $locale);
 
-        $categoriesWithPreloadedChildren = $this->categoryWithPreloadedChildrenFactory->createCategoriesWithPreloadedChildren($categories);
-
-        return $categoriesWithPreloadedChildren;
+        return $this->categoryWithPreloadedChildrenFactory->createCategoriesWithPreloadedChildren($categories);
     }
 
     /**
@@ -269,10 +264,8 @@ class CategoryFacade
     {
         $categories = $this->categoryRepository->getTranslatedVisibleSubcategoriesByDomain($parentCategory, $domainConfig);
 
-        $categoriesWithLazyLoadedVisibleChildren = $this->categoryWithLazyLoadedVisibleChildrenFactory
+        return $this->categoryWithLazyLoadedVisibleChildrenFactory
             ->createCategoriesWithLazyLoadedVisibleChildren($categories, $domainConfig);
-
-        return $categoriesWithLazyLoadedVisibleChildren;
     }
 
     /**
@@ -283,13 +276,11 @@ class CategoryFacade
      */
     public function getVisibleByDomainAndSearchText($domainId, $locale, $searchText)
     {
-        $categories = $this->categoryRepository->getVisibleByDomainIdAndSearchText(
+        return $this->categoryRepository->getVisibleByDomainIdAndSearchText(
             $domainId,
             $locale,
             $searchText
         );
-
-        return $categories;
     }
 
     /**
@@ -321,15 +312,13 @@ class CategoryFacade
     {
         $page = 1;
 
-        $paginationResult = $this->categoryRepository->getPaginationResultForSearchVisible(
+        return $this->categoryRepository->getPaginationResultForSearchVisible(
             $searchText,
             $this->domain->getId(),
             $this->domain->getLocale(),
             $page,
             $limit
         );
-
-        return $paginationResult;
     }
 
     /**

@@ -128,13 +128,11 @@ class ParameterRepository
      */
     protected function getProductParameterValuesByProductQueryBuilder(Product $product)
     {
-        $queryBuilder = $this->em->createQueryBuilder()
+        return $this->em->createQueryBuilder()
             ->select('ppv')
             ->from(ProductParameterValue::class, 'ppv')
             ->where('ppv.product = :product_id')
             ->setParameter('product_id', $product->getId());
-
-        return $queryBuilder;
     }
 
     /**
@@ -144,7 +142,7 @@ class ParameterRepository
      */
     protected function getProductParameterValuesByProductSortedByNameQueryBuilder(Product $product, $locale)
     {
-        $queryBuilder = $this->em->createQueryBuilder()
+        return $this->em->createQueryBuilder()
             ->select('ppv')
             ->from(ProductParameterValue::class, 'ppv')
             ->join('ppv.parameter', 'p')
@@ -156,8 +154,6 @@ class ParameterRepository
                 'locale' => $locale,
             ])
             ->orderBy('pt.name');
-
-        return $queryBuilder;
     }
 
     /**

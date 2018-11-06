@@ -50,15 +50,13 @@ class CustomerDataFactory implements CustomerDataFactoryInterface
      * @param \Shopsys\FrameworkBundle\Model\Customer\User $user
      * @return \Shopsys\FrameworkBundle\Model\Customer\CustomerData
      */
-    public function createFromUser(User $user): CustomerData
+    public function createFromUser(User $user) : CustomerData
     {
-        $customerData = new CustomerData(
+        return new CustomerData(
             $this->billingAddressDataFactory->createFromBillingAddress($user->getBillingAddress()),
             $this->getDeliveryAddressDataFromUser($user),
             $this->userDataFactory->createFromUser($user)
         );
-
-        return $customerData;
     }
 
     /**

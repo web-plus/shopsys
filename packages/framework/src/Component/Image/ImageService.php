@@ -76,14 +76,12 @@ class ImageService
     ) {
         $temporaryFilepath = $this->fileUpload->getTemporaryFilepath($temporaryFilename);
 
-        $image = $this->imageFactory->create(
+        return $this->imageFactory->create(
             $imageEntityConfig->getEntityName(),
             $entityId,
             $type,
             $this->imageProcessingService->convertToShopFormatAndGetNewFilename($temporaryFilepath)
         );
-
-        return $image;
     }
 
     /**
